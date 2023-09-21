@@ -13,10 +13,11 @@ export default {
         Grey7: "#222228",
         Grey8: "#25252B",
         Grey9: "#17171D",
-        Blue1: "#3640F0"
+        Blue1: "#3640F0",
       },
       fontFamily: {
         custom: ["Urbanist", "sans-serif"],
+        paytone: ["Paytone one", "mono"],
       },
     },
   },
