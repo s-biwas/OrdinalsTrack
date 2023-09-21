@@ -3,8 +3,13 @@ import hamMenu from "../images/hammenu.svg";
 
 function Nav() {
   return (
-    <nav className="flex items-center justify-between">
-      <h1 className="text-gradient font-serif text-2xl font-bold uppercase">
+    <nav className=" flex items-center justify-between">
+      <h1
+        className="text-gradient font-serif text-2xl font-bold uppercase"
+        style={{
+          fontFamily: "Paytone One",
+        }}
+      >
         MonkeyNft
       </h1>
 
