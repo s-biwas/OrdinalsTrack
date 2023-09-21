@@ -89,11 +89,46 @@ select {
 }
 
 @keyframes moveUpDown {
+
   0%,
   100% {
-    transform: translateY(0); /* Start and end at the same position */
+    transform: translateY(0);
+    /* Start and end at the same position */
   }
+
   50% {
-    transform: translateY(-20px); /* Move up by 20 pixels at the midpoint */
+    transform: translateY(-20px);
+    /* Move up by 20 pixels at the midpoint */
   }
+}
+
+/* scrollbar custom */
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: theme("colors.stone.800");
+}
+
+.dark::-webkit-scrollbar-track {
+  background: theme("colors.stone.800");
+}
+
+/* Handle */
+.dark::-webkit-scrollbar-thumb {
+  background: theme("colors.stone.600");
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme("colors.stone.600");
+  border-radius: 20px;
+}
+
+/* whenever possible hide scrollbar */
+.hideBars::-webkit-scrollbar {
+  width: 0;
 }

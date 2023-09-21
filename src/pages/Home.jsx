@@ -1,4 +1,3 @@
-import React from "react";
 import monkey from "../images/Monkey.svg";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -16,12 +15,12 @@ const Home = () => {
 
   return (
     <motion.div
-      className="flex h-screen flex-wrap items-center justify-center "
+      className="flex flex-wrap items-center justify-center max-w-screen-xl mx-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 1 } }}
     >
-      <div className="flex w-full items-center p-4 md:w-1/3 lg:w-1/3">
-        <div className="p-4">
+      <div className="flex w-full items-center p-4 flex-col-reverse lg:flex-row lg:px-0 lg:py-4">
+        <div className="p-4 lg:p-0 lg:py-4 flex flex-col justify-center items-center text-center lg:text-left lg:items-start gap-5 lg:gap-1">
           <motion.p
             className="text-2xl font-bold text-white md:text-lg"
             style={{
@@ -48,7 +47,7 @@ const Home = () => {
               transition: { duration: 1, delay: 0.7 },
             }}
           >
-            DISCOVER RARE <span style={gradientText}>MONKEY NFT'S!</span>
+            DISCOVER RARE <span style={gradientText}>MONKEY NFT&apos;S!</span>
           </motion.p>
           <motion.p
             className="text-base font-bold text-white opacity-70 md:text-lg"
@@ -77,30 +76,30 @@ const Home = () => {
             </button>
           </motion.div>
         </div>
-      </div>
-      <div className="w-full p-4 md:w-2/3 lg:w-2/3">
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: -100 }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            transition: { duration: 1, delay: 0.5 },
-          }}
-        >
-          <motion.img
-            src={monkey}
-            alt="Monkey"
-            className="mx-auto w-full rounded-full md:w-3/4 lg:w-2/3"
-            style={animationStyle}
+        <div className="w-full p-4">
+          <motion.div
+            className="text-center"
             initial={{ opacity: 0, y: -100 }}
             animate={{
               opacity: 1,
               y: 0,
-              transition: { duration: 1, delay: 0.7 },
+              transition: { duration: 1, delay: 0.5 },
             }}
-          />
-        </motion.div>
+          >
+            <motion.img
+              src={monkey}
+              alt="Monkey"
+              className="mx-auto w-full rounded-full"
+              style={animationStyle}
+              initial={{ opacity: 0, y: -100 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: { duration: 1, delay: 0.7 },
+              }}
+            />
+          </motion.div>
+        </div>
       </div>
     </motion.div>
   );
