@@ -1,8 +1,14 @@
-# React + Vite
+# OrdinalsTrack - BTC Hackathon Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Resources
 
-Currently, two official plugins are available:
+- [Landing Page Inspiration](https://discord.com/channels/1149384201813114900/1151223522945929338/1154319573630324746)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Xverse Wallet
+  Connect] (https://docs.xverse.app/wallet-connect/web/webapp)
+
+- [leather Gitbook Connect users] (https://leather.gitbook.io/developers/bitcoin/connect-users/authenticate-users)
+
+- [Ordinals hiro Api] (http://ordinals.hiro.so/)
+
+- [Hiro Api increase limit] (https://www.hiro.so/blog/increase-your-api-rate-limits-with-an-api-key)
