@@ -24,8 +24,8 @@ dd {
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-ul[role='list'],
-ol[role='list'] {
+ul[role="list"],
+ol[role="list"] {
   list-style: none;
 }
 
@@ -43,6 +43,7 @@ body {
 
 /* A elements that don't have a class get default styles */
 a:not([class]) {
+  -webkit-text-decoration-skip: ink;
   text-decoration-skip-ink: auto;
 }
 
@@ -70,9 +71,18 @@ select {
   *,
   *::before,
   *::after {
+    -webkit-animation-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+    -webkit-animation-iteration-count: 1 !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+.text-gradient {
+  background: #ac00cf;
+  background: linear-gradient(to right, #ac00cf 0%, #cf8ba1 67%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

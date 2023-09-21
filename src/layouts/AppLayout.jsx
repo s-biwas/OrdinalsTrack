@@ -4,7 +4,7 @@ import Footer from "./Footer";
 
 function AppLayout() {
   return (
-    <div className="space-y-4">
+    <div className="flex h-full w-full flex-col justify-between">
       <Nav />
       <Outlet />
       <Footer />
