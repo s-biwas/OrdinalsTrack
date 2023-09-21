@@ -1,12 +1,7 @@
-import './App.css'
+import "./App.css";
 
 function App() {
-
-  return (
-    <div className='flex h-full w-full bg-Grey8 text-white'>
-      Ordinals Tracker
-    </div>
-  )
+  return <div className="mx-auto text-4xl">Ordinals Tracker</div>;
 }
 
-export default App
+export default App;
