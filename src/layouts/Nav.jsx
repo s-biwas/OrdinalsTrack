@@ -60,14 +60,16 @@ function NavPages({ type = "hr-nav", setShowMenu }) {
           Creators
         </Link>
       </li>
-      <button className="sm:ml-auto">
-        <Link
-          to="/addwallet"
+      <div className="ml-auto">
+        <button
+          onClick={() => {
+            response();
+          }}
           className="rounded-md p-2 font-medium ring-2 ring-green-400 hover:bg-green-300/30"
         >
           Connect Wallet
-        </Link>
-      </button>
+        </button>
+      </div>
     </ul>
   );
 }
