@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import hamMenu from "../images/hammenu.svg";
-
+import { response } from "../utils/getAddress";
 function Nav() {
   return (
     <nav className=" flex items-center justify-between max-w-screen-xl mx-auto">
@@ -29,14 +29,16 @@ function Nav() {
             Creators
           </Link>
         </li>
-        <button className="ml-auto">
-          <Link
-            to="/addwallet"
+        <div className="ml-auto">
+          <button
+            onClick={() => {
+              response()
+            }}
             className="rounded-md p-2 font-medium ring-2 ring-green-400 hover:bg-green-300/30"
           >
             Connect Wallet
-          </Link>
-        </button>
+          </button>
+        </div>
       </ul>
 
       <button className="sm:hidden">
