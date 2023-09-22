@@ -5,6 +5,8 @@ import logo from "../images/logo.svg";
 import { useState } from "react";
 import { response } from "../utils/getAddress";
 
+import { Profile } from "../components/walletConnector";
+
 function Nav() {
   const [showMenu, setShowMenu] = useState(false);
   return (
@@ -60,16 +62,7 @@ function NavPages({ type = "hr-nav", setShowMenu }) {
           Creators
         </Link>
       </li>
-      <div className="sm:ml-auto">
-        <button
-          onClick={() => {
-            response();
-          }}
-          className="rounded-md p-2 font-medium ring-2 ring-green-400 hover:bg-green-300/30"
-        >
-          Connect Wallet
-        </button>
-      </div>
+      <Profile embedOn={"nav"} />
     </ul>
   );
 }
