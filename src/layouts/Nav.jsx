@@ -60,7 +60,7 @@ function NavPages({ type = "hr-nav", setShowMenu }) {
           Creators
         </Link>
       </li>
-      <div className="ml-auto">
+      <div className="sm:ml-auto">
         <button
           onClick={() => {
             response();
