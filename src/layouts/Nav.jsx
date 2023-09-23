@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import hamMenu from "../images/hammenu.svg";
 import logo from "../images/logo.svg";
 import { useState } from "react";
-import { response } from "../utils/getAddress";
 
-import { Profile } from "../components/walletConnector";
+// import { Profile } from "../components/walletConnector";
 
 function Nav() {
   const [showMenu, setShowMenu] = useState(false);
@@ -62,7 +61,17 @@ function NavPages({ type = "hr-nav", setShowMenu }) {
           Creators
         </Link>
       </li>
-      <Profile embedOn={"nav"} />
+
+      {/* <Profile embedOn={"nav"} /> */}
+
+      <div className="ml-auto">
+        <Link
+          to={"addwallet"}
+          className="rounded-md p-2 font-medium ring-2 ring-green-400 hover:bg-green-300/30"
+        >
+          Connect Wallet
+        </Link>
+      </div>
     </ul>
   );
 }

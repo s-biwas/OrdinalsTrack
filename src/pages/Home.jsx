@@ -1,6 +1,7 @@
 import monkey from "../images/Monkey.svg";
 import { motion } from "framer-motion";
-import { Profile } from "../components/walletConnector";
+// import { Profile } from "../components/walletConnector";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const gradientText = {
@@ -70,8 +71,14 @@ const Home = () => {
               y: 0,
               transition: { duration: 1, delay: 0.9 },
             }}
+            className="mt-4"
           >
-            <Profile embedOn={"home"} />
+            {/* <Profile embedOn={"home"} /> */}
+            <Link
+              to={"addwallet"}
+              className=" rounded-full bg-gradient-to-r from-orange-400 to-orange-600 px-4 py-2 font-semibold text-white transition duration-300 ease-in-out hover:to-orange-700">
+              Connect Wallet
+            </Link>
           </motion.div>
         </div>
         <div className="w-full p-4">
