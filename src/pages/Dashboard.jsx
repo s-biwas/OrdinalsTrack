@@ -5,7 +5,7 @@ function Dashboard() {
   const { response } = useSelector((state) => state.wallet);
   const btcAddress = response?.authResponsePayload.iss.split(":")[2];
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-screen-xl flex-col">
+    <div className="mx-auto flex max-h-[70vh] max-w-screen-xl flex-col">
       {btcAddress && <UserProfile address={btcAddress} />}
     </div>
   );
