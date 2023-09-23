@@ -6,8 +6,6 @@ import Status from "../ui/Status";
 
 function AppLayout() {
   const wallet = useSelector((state) => state.wallet);
-  console.log(wallet.response);
-  console.log(wallet.error);
 
   return (
     <>
