@@ -1,7 +1,7 @@
 import monkey from "../images/Monkey.svg";
 import { motion } from "framer-motion";
 // import { Profile } from "../components/walletConnector";
-import { Link } from "react-router-dom";
+import apiConnectWallet from "../services/apiConnectWallet";
 
 const Home = () => {
   const gradientText = {
@@ -16,12 +16,12 @@ const Home = () => {
 
   return (
     <motion.div
-      className="flex flex-wrap items-center justify-center max-w-screen-xl mx-auto"
+      className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 1 } }}
     >
-      <div className="flex w-full items-center p-4 flex-col-reverse lg:flex-row lg:px-0 lg:py-4">
-        <div className="p-4 lg:p-0 lg:py-4 flex flex-col justify-center items-center text-center lg:text-left lg:items-start gap-5 lg:gap-1">
+      <div className="flex w-full flex-col-reverse items-center p-4 lg:flex-row lg:px-0 lg:py-4">
+        <div className="flex flex-col items-center justify-center gap-5 p-4 text-center lg:items-start lg:gap-1 lg:p-0 lg:py-4 lg:text-left">
           <motion.p
             className="text-2xl font-bold text-white md:text-lg"
             style={{
@@ -74,11 +74,12 @@ const Home = () => {
             className="mt-4"
           >
             {/* <Profile embedOn={"home"} /> */}
-            <Link
-              to={"addwallet"}
-              className=" rounded-full bg-gradient-to-r from-orange-400 to-orange-600 px-4 py-2 font-semibold text-white transition duration-300 ease-in-out hover:to-orange-700">
+            <button
+              onClick={apiConnectWallet}
+              className=" rounded-full bg-gradient-to-r from-orange-400 to-orange-600 px-4 py-2 font-semibold text-white transition duration-300 ease-in-out hover:to-orange-700"
+            >
               Connect Wallet
-            </Link>
+            </button>
           </motion.div>
         </div>
         <div className="w-full p-4">
