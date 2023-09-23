@@ -103,8 +103,13 @@ function WalletUser() {
 
       {/* show on Click profile icon */}
       {openOptions ? (
-        <div className="absolute left-[-250%] top-[110%] rounded-md bg-stone-600 shadow-xl ">
+        <div
+          onMouseLeave={() => { setOpenOptions(false) }}
+          className="absolute left-[-250%] top-[110%] rounded-md bg-stone-600 shadow-xl ">
           <Link
+            onClick={() => {
+              setOpenOptions(false);
+            }}
             to="/dashboard"
             className="text-md flex items-center gap-x-2 rounded-md p-4 hover:bg-green-400 hover:text-slate-800"
           >

@@ -2,6 +2,7 @@ import { showConnect } from "@stacks/connect";
 import userSession from "../utils/userSession";
 import store from "../store";
 import { updateError, updateResponse } from "./walletSlice";
+// import Cookies from "js-cookie";
 
 export default async function apiConnectWallet() {
   const myAppIcon = window.location.origin + "/src/images/Logoicon.png";
@@ -15,7 +16,9 @@ export default async function apiConnectWallet() {
       },
       onFinish: (response) => {
         store.dispatch(updateResponse(response));
-        console.log(response);
+        // Cookies.remove('OrdinalsToken');
+        // Cookies.set('OrdinalsToken', response.authResponse, { expires: 7 });
+        // console.log(Cookies.get('OrdinalsToken'));
       },
       onCancel: () => {
         console.log("Authentication canceled");
