@@ -1,9 +1,9 @@
 import { showConnect } from "@stacks/connect";
-import userSession from "../pages/userSession";
+import userSession from "../utils/userSession";
+import Cookies from 'js-cookie';
 
 export default async function apiConnectWallet() {
   const myAppIcon = window.location.origin + "/src/images/Logoicon.png"; // Icon shown in wallet pop-up
-
   try {
     await showConnect({
       userSession, // UserSession instance from ./userSession.js
@@ -14,6 +14,9 @@ export default async function apiConnectWallet() {
       onFinish: (response) => {
         console.log(response); //check the response of user in console
         // Handle authentication success (user confirmed in Xverse wallet)
+        Cookies.remove('OrdinalToken');
+        Cookies.set('OrdinalToken', response.authResponse, { expires: 7 });
+        window.location = "/profile";
       },
       onCancel: () => {
         // Handle authentication cancellation (user closed the pop-up)
