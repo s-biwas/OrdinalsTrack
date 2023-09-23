@@ -137,3 +137,7 @@ select {
   background: rgb(26, 1, 63);
   background: linear-gradient(90deg, rgba(26, 1, 63, 1) 0%, rgba(31, 1, 65, 1) 42%, rgba(19, 0, 60, 1) 100%);
 } */
+
+body {
+  background: theme("colors.stone.800");
+}

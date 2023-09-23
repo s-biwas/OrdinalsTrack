@@ -22,9 +22,9 @@ export default function UserProfile({ address }) {
         <div className="w-full border-2 rounded-md flex justify-center items-center flex-col min-h-[100px] p-7 gap-6 my-7">
             <h2 className="text-lg font-light border-b ">Connected With :</h2>
             <div className="flex flex-col items-start justify-start gap-4">
-                <div className="flex gap-2 flex-col md:flex-row items-center">
+                <div className="flex gap-2 flex-col md:flex-row items-center overflow-hidden">
                     <div id="avatar" className="w-10 h-10"></div>
-                    <span className="text-sm md:text-base lg:text-lg lg:font-medium text-clip overflow-hidden">{address}</span>
+                    <span className="text-sm md:text-base lg:text-lg lg:font-medium">{address}</span>
                 </div>
                 <div
                     onClick={copyToClipboard}
