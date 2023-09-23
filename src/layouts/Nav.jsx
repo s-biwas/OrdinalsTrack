@@ -4,6 +4,10 @@ import hamMenu from "../images/hammenu.svg";
 import logo from "../images/logo.svg";
 import { useState } from "react";
 import apiConnectWallet from "../services/apiConnectWallet";
+import { useDispatch, useSelector } from "react-redux";
+import { MdLogout, MdOutlineDashboardCustomize } from "react-icons/md";
+// import { useDisconnect } from "wagmi";
+import { clearResponse } from "../services/walletSlice";
 
 // import { Profile } from "../components/walletConnector";
 
@@ -29,6 +33,7 @@ function Nav() {
 export default Nav;
 
 function NavPages({ type = "hr-nav", setShowMenu }) {
+  const wallet = useSelector((state) => state.wallet);
   let classNames;
 
   if (type === "hr-nav") {
@@ -67,13 +72,55 @@ function NavPages({ type = "hr-nav", setShowMenu }) {
       {/* <Profile embedOn={"nav"} /> */}
 
       <div className="ml-auto">
-        <button
-          onClick={apiConnectWallet}
-          className="rounded-md p-2 font-medium ring-2 ring-green-400 hover:bg-green-300/30"
-        >
-          Connect Wallet
-        </button>
+        {!wallet?.response ? (
+          <button
+            onClick={apiConnectWallet}
+            className="rounded-md p-2 font-medium ring-2 ring-green-400 hover:bg-green-300/30"
+          >
+            Connect Wallet
+          </button>
+        ) : (
+          <WalletUser />
+        )}
       </div>
     </ul>
+  );
+}
+
+// When Wallet is Connected
+function WalletUser() {
+  const [openOptions, setOpenOptions] = useState(false);
+  const dispatch = useDispatch();
+
+  return (
+    <div className="relative">
+      <img
+        onClick={() => setOpenOptions((v) => !v)}
+        src="https://i.pravatar.cc/48?img=4"
+        className="cursor-pointer rounded-full ring-2 ring-green-400"
+        alt="headshot"
+      />
+
+      {/* show on Click profile icon */}
+      {openOptions ? (
+        <div className="absolute left-[-250%] top-[110%] rounded-md bg-stone-600 shadow-xl ">
+          <Link
+            to="/dashboard"
+            className="text-md flex items-center gap-x-2 rounded-md p-4 hover:bg-green-400 hover:text-slate-800"
+          >
+            <span>See Dashboard</span>
+            <MdOutlineDashboardCustomize />
+          </Link>
+          <Link
+            onClick={dispatch(clearResponse)}
+            to="/"
+            className="text-md flex items-center gap-x-2 rounded-md p-4 hover:bg-green-400 hover:text-slate-800"
+          >
+            <span>Log out</span>
+            <MdLogout />
+          </Link>
+        </div>
+      ) : null}
+    </div>
   );
 }

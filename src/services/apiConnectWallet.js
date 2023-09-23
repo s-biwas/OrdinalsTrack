@@ -1,27 +1,29 @@
 import { showConnect } from "@stacks/connect";
 import userSession from "../pages/userSession";
+import store from "../store";
+import { updateError, updateResponse } from "./walletSlice";
 
 export default async function apiConnectWallet() {
-  const myAppIcon = window.location.origin + "/src/images/Logoicon.png"; // Icon shown in wallet pop-up
+  const myAppIcon = window.location.origin + "/src/images/Logoicon.png";
 
   try {
     await showConnect({
-      userSession, // UserSession instance from ./userSession.js
+      userSession,
       appDetails: {
         name: "Ordinals Tracker",
         icon: myAppIcon,
       },
       onFinish: (response) => {
-        console.log(response); //check the response of user in console
-        // Handle authentication success (user confirmed in Xverse wallet)
+        store.dispatch(updateResponse(response));
+        console.log(response);
       },
       onCancel: () => {
-        // Handle authentication cancellation (user closed the pop-up)
         console.log("Authentication canceled");
       },
     });
   } catch (error) {
-    // Handle any errors that may occur during authentication
+    store.dispatch(updateError(error.message));
+
     console.error("Authentication error:", error);
     throw new Error(error.message);
   }

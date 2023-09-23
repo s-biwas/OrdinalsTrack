@@ -2,8 +2,11 @@ import monkey from "../images/Monkey.svg";
 import { motion } from "framer-motion";
 // import { Profile } from "../components/walletConnector";
 import apiConnectWallet from "../services/apiConnectWallet";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Home = () => {
+  const wallet = useSelector((state) => state.wallet);
   const gradientText = {
     fontFamily: "Paytone One",
     background: "linear-gradient(45deg, #f06, #9f6)",
@@ -48,7 +51,10 @@ const Home = () => {
               transition: { duration: 1, delay: 0.7 },
             }}
           >
-            EXPLORE YOUR <span style={gradientText} className="w-full">ORDINAL&apos;S P&L!</span>
+            EXPLORE YOUR{" "}
+            <span style={gradientText} className="w-full">
+              ORDINAL&apos;S P&L!
+            </span>
           </motion.p>
           <motion.p
             className="text-base font-bold text-white opacity-70 md:text-lg"
@@ -74,12 +80,22 @@ const Home = () => {
             className="mt-4"
           >
             {/* <Profile embedOn={"home"} /> */}
-            <button
-              onClick={apiConnectWallet}
-              className=" rounded-full bg-gradient-to-r from-orange-400 to-orange-600 px-4 py-2 font-semibold text-white transition duration-300 ease-in-out hover:to-orange-700"
-            >
-              Connect Wallet
-            </button>
+
+            {!wallet?.response ? (
+              <button
+                onClick={apiConnectWallet}
+                className=" rounded-full bg-gradient-to-r from-orange-400 to-orange-600 px-4 py-2 font-semibold text-white transition duration-300 ease-in-out hover:to-orange-700"
+              >
+                Connect Wallet
+              </button>
+            ) : (
+              <Link
+                to="/dashboard"
+                className=" rounded-full bg-gradient-to-r from-orange-400 to-orange-600 px-4 py-2 font-semibold text-white transition duration-300 ease-in-out hover:to-orange-700"
+              >
+                See Your Dashboard &rarr;
+              </Link>
+            )}
           </motion.div>
         </div>
         <div className="w-full p-4">

@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
     "@stacks/connect": "^7.4.0",
     "@tanstack/react-query": "^4.35.3",
     "@tanstack/react-query-devtools": "^4.35.3",
@@ -18,13 +19,12 @@
     "@walletconnect/sign-client": "^2.10.1",
     "@walletconnect/types": "^2.10.1",
     "@walletconnect/utils": "^2.10.1",
-
     "@walletconnect/web3wallet": "^1.9.1",
-
     "framer-motion": "^10.16.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
+    "react-redux": "^8.1.2",
     "react-router": "^6.16.0",
     "react-router-dom": "^6.16.0",
     "sats-connect": "^1.1.1",
