@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@stacks/connect": "^7.4.0",
+    "@stacks/profile": "^6.9.0",
     "@tanstack/react-query": "^4.35.3",
     "@tanstack/react-query-devtools": "^4.35.3",
     "@walletconnect/encoding": "^1.0.2",
@@ -21,6 +22,7 @@
     "@walletconnect/utils": "^2.10.1",
     "@walletconnect/web3wallet": "^1.9.1",
     "framer-motion": "^10.16.4",
+    "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",

@@ -1,5 +1,5 @@
 import { showConnect } from "@stacks/connect";
-import userSession from "../pages/userSession";
+import userSession from "../utils/userSession";
 import store from "../store";
 import { updateError, updateResponse } from "./walletSlice";
 
