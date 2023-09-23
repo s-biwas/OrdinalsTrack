@@ -3,10 +3,10 @@ import UserProfile from '../components/Dashboard/UserProfile';
 
 function Dashboard() {
   const { response } = useSelector((state) => state.wallet);
-  console.log(response);
+  const btcAddress = response?.authResponsePayload.iss.split(':')[2];
   return (
     <div className='min-h-[70vh] max-w-screen-xl mx-auto flex flex-col'>
-      <UserProfile />
+      {btcAddress && <UserProfile address={btcAddress} />}
     </div>
   );
 }
