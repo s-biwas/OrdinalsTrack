@@ -10,21 +10,19 @@ import apiConnectWallet from "../services/apiConnectWallet";
 function Nav() {
   const [showMenu, setShowMenu] = useState(false);
   return (
-    <>
-      <nav className="shadow-x sticky top-0 z-50 mx-auto flex max-w-screen-xl items-center justify-between bg-stone-800/80 py-4">
-        <h1 className="text-gradient font-paytone text-2xl font-bold uppercase">
-          MonkeyNft
-        </h1>
+    <nav className="shadow-x sticky top-0 z-50 mx-auto flex max-w-screen-xl items-center justify-between bg-stone-800/80 py-4">
+      <h1 className="text-gradient font-paytone text-2xl font-bold uppercase ">
+        Ordinal`Scan
+      </h1>
 
-        <NavPages type="hr-nav" />
-        {showMenu ? <NavPages type="vr-nav" setShowMenu={setShowMenu} /> : null}
-        {!showMenu ? (
-          <button onClick={() => setShowMenu((v) => !v)} className="sm:hidden">
-            <img src={hamMenu} alt="hammenu" />
-          </button>
-        ) : null}
-      </nav>
-    </>
+      <NavPages type="hr-nav" />
+      {showMenu ? <NavPages type="vr-nav" setShowMenu={setShowMenu} /> : null}
+      {!showMenu ? (
+        <button onClick={() => setShowMenu((v) => !v)} className="sm:hidden">
+          <img src={hamMenu} alt="hammenu" />
+        </button>
+      ) : null}
+    </nav>
   );
 }
 

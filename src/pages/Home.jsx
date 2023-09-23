@@ -34,7 +34,7 @@ const Home = () => {
               transition: { duration: 1, delay: 0.5 },
             }}
           >
-            Unlock the Secrets of NFT Trading Success
+            Unlock the Potential of BTC Ordinals
           </motion.p>
           <motion.p
             className="text-4xl leading-tight text-white md:text-5xl lg:text-7xl"
@@ -48,7 +48,7 @@ const Home = () => {
               transition: { duration: 1, delay: 0.7 },
             }}
           >
-            DISCOVER RARE <span style={gradientText}>MONKEY NFT&apos;S!</span>
+            EXPLORE YOUR <span style={gradientText} className="w-full">ORDINAL&apos;S P&L!</span>
           </motion.p>
           <motion.p
             className="text-base font-bold text-white opacity-70 md:text-lg"
@@ -62,7 +62,7 @@ const Home = () => {
               transition: { duration: 1, delay: 0.9 },
             }}
           >
-            The Ultimate Tool to Analyze Your NFT Investments
+            The Ultimate Tool to Analyze Your Ordinal Returns
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 100 }}
