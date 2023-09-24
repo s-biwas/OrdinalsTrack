@@ -1,8 +1,6 @@
-import React from "react";
-
 export default function Spinner() {
   return (
-    <div className="flex justify-center items-center" style={{height: '100px'}}>
+    <div className="flex justify-center items-center" style={{ height: '100px' }}>
       <div role="status">
         <svg
           aria-hidden="true"

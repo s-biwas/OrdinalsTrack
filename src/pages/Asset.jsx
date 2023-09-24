@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Spinner from './Spinner';
 import LoadingBar from 'react-top-loading-bar'
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -73,8 +73,8 @@ export default function Shop() {
         fetchdata();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    return(
-         
+    return (
+
         <div className="container mx-auto">
 
             <div className="shop-nav">
@@ -106,9 +106,9 @@ export default function Shop() {
                 >
                     <div className="shop-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {image.map((element) => (
-                            <div className="img-grid max-w-sm rounded overflow-hidden shadow-lg m-2">
+                            <div key={element.src.original} className="img-grid max-w-sm rounded overflow-hidden shadow-lg m-2">
                                 <figure key={element.src.original}>
-                                    <img src={element.src.medium} alt="img" className="w-full object-cover h-48"/>
+                                    <img src={element.src.medium} alt="img" className="w-full object-cover h-48" />
                                     <figcaption className="px-6 py-4">{element.alt.slice(0, 30)}...</figcaption>
                                     <figcaption className="px-6 py-4"><a href={element.url} rel="noreferrer" target='_blank' className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download</a></figcaption>
                                 </figure>
@@ -117,6 +117,6 @@ export default function Shop() {
                     </div>
                 </InfiniteScroll>
             </div>
-        </div >
+        </div>
     )
 }

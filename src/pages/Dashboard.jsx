@@ -6,7 +6,7 @@ function Dashboard() {
   const { addresses } = useSelector((state) => state.wallet);
   const walletAddress = addresses?.addresses[0].address;
   return (
-    <div className="mx-auto flex max-h-[70vh] max-w-screen-xl flex-col">
+    <div className="mx-auto flex min-h-[70vh] max-w-screen-xl flex-col">
       {walletAddress &&
         <>
           <UserProfile address={walletAddress} />
