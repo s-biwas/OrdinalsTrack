@@ -2,6 +2,7 @@ import { showConnect } from "@stacks/connect";
 import userSession from "../utils/userSession";
 import store from "../store";
 import { updateError, updateResponse } from "./walletSlice";
+import { askForAddress } from "../utils/getAddress";
 // import Cookies from "js-cookie";
 
 export default async function apiConnectWallet() {
@@ -16,6 +17,7 @@ export default async function apiConnectWallet() {
       },
       onFinish: (response) => {
         store.dispatch(updateResponse(response));
+        askForAddress();
         // Cookies.remove('OrdinalsToken');
         // Cookies.set('OrdinalsToken', response.authResponse, { expires: 7 });
         // console.log(Cookies.get('OrdinalsToken'));

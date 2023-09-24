@@ -1,18 +1,17 @@
-import { useSelector } from 'react-redux';
-import UserProfile from '../components/Dashboard/UserProfile';
+import { useSelector } from "react-redux";
+import UserProfile from "../components/Dashboard/UserProfile";
 
 function Dashboard() {
-  const { response } = useSelector((state) => state.wallet);
-  const btcAddress = response?.authResponsePayload.iss.split(':')[2];
+  const { addresses } = useSelector((state) => state.wallet);
+  const walletAddress = addresses?.addresses[0].address;
   return (
-    <div className='min-h-[70vh] max-w-screen-xl mx-auto flex flex-col'>
-      {btcAddress && <UserProfile address={btcAddress} />}
+    <div className="mx-auto flex max-h-[70vh] max-w-screen-xl flex-col">
+      {walletAddress && <UserProfile address={walletAddress} />}
     </div>
   );
 }
 
 export default Dashboard;
-
 
 // const tokenFR = response?.authResponse;
 // if (!tokenFR)

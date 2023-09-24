@@ -1,4 +1,6 @@
 import { getAddress } from 'sats-connect'
+import store from '../store';
+import { updateAddresses } from '../services/walletSlice';
 
 const getAddressOptions = {
     payload: {
@@ -9,12 +11,12 @@ const getAddressOptions = {
         },
     },
     onFinish: (response) => {
-        console.log(response)
+        store.dispatch(updateAddresses(response));
     },
     onCancel: () => alert('Request canceled'),
 }
 
 
-export const response = async () => {
+export const askForAddress = async () => {
     await getAddress(getAddressOptions);
 }

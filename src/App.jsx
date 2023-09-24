@@ -8,6 +8,7 @@ import AppLayout from "./layouts/AppLayout";
 import Home from "./pages/Home";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Dashboard from "./pages/Dashboard";
+import Page404 from "./ui/Page404";
 // import { WagmiConfig, configureChains, createConfig, mainnet } from 'wagmi'
 // import { publicProvider } from 'wagmi/providers/public'
 // import { InjectedConnector } from 'wagmi/connectors/injected'
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
         <Route index element={<Home />} />,
         <Route path="/dashboard" element={<Dashboard />} />,
       </Route>
+      <Route path="*" element={<Page404 />} />
     </Route>,
   ),
 );

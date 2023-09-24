@@ -1,9 +1,9 @@
 import monkey from "../images/Monkey.svg";
 import { motion } from "framer-motion";
 // import { Profile } from "../components/walletConnector";
-import apiConnectWallet from "../services/apiConnectWallet";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import apiConnectWallet from "../services/apiConnectWallet";
 
 const Home = () => {
   const wallet = useSelector((state) => state.wallet);

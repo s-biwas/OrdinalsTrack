@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import hamMenu from "../images/hammenu.svg";
 import logo from "../images/logo.svg";
 import { useState } from "react";
-import apiConnectWallet from "../services/apiConnectWallet";
 import { useDispatch, useSelector } from "react-redux";
 import { MdLogout, MdOutlineDashboardCustomize } from "react-icons/md";
 // import { useDisconnect } from "wagmi";
 import { clearResponse } from "../services/walletSlice";
+import apiConnectWallet from "../services/apiConnectWallet";
 
 // import { Profile } from "../components/walletConnector";
 
