@@ -2,12 +2,13 @@
 import { Link } from "react-router-dom";
 import hamMenu from "../images/hammenu.svg";
 import logo from "../images/logo.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdLogout, MdOutlineDashboardCustomize } from "react-icons/md";
 // import { useDisconnect } from "wagmi";
 import { clearResponse } from "../services/walletSlice";
 import apiConnectWallet from "../services/apiConnectWallet";
+import createAvatar from "../utils/generateWeb3Avatar";
 
 // import { Profile } from "../components/walletConnector";
 
@@ -35,6 +36,11 @@ export default Nav;
 function NavPages({ type = "hr-nav", setShowMenu }) {
   const wallet = useSelector((state) => state.wallet);
   let classNames;
+  const { addresses } = useSelector((state) => state.wallet);
+  const walletAddress = addresses?.addresses[0].address;
+  useEffect(() => {
+    walletAddress && createAvatar("profile", walletAddress);
+  }, [walletAddress]);
 
   if (type === "hr-nav") {
     classNames = "hidden items-center justify-center gap-x-6 sm:flex";
@@ -72,7 +78,7 @@ function NavPages({ type = "hr-nav", setShowMenu }) {
       {/* <Profile embedOn={"nav"} /> */}
 
       <div className="ml-auto">
-        {!wallet?.response ? (
+        {!walletAddress ? (
           <button
             onClick={apiConnectWallet}
             className="rounded-md p-2 font-medium ring-2 ring-green-400 hover:bg-green-300/30"
@@ -94,12 +100,7 @@ function WalletUser() {
 
   return (
     <div className="relative">
-      <img
-        onClick={() => setOpenOptions((v) => !v)}
-        src="https://i.pravatar.cc/48?img=4"
-        className="cursor-pointer rounded-full ring-2 ring-green-400"
-        alt="headshot"
-      />
+      <div id="profile" onClick={() => setOpenOptions((v) => !v)} className="h-12 w-12 ring-2 border-4 cursor-pointer hover:border-lime-400"></div>
 
       {/* show on Click profile icon */}
       {openOptions ? (
