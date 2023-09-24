@@ -1,20 +1,16 @@
 import axios from "axios";
 
 export const fetchOrdinals = async (address) => {
-  const response = await axios.request({
-    method: 'get',
-    maxBodyLength: Infinity,
-    url: 'https://api.hiro.so/ordinals/v1/inscriptions?address=' + address,
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-    .then((response) => {
-      return JSON.stringify(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
+  try {
+    const response = await axios.get(`https://api.hiro.so/ordinals/v1/inscriptions?address=${address}`, {
+      headers: {
+        'Accept': 'application/json'
+      }
     });
 
-  return response;
+    return JSON.stringify(response.data);
+  } catch (error) {
+    console.error(error);
+    throw error; // Re-throw the error to propagate it up the call stack if needed
+  }
 }
