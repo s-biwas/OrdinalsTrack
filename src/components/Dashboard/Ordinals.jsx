@@ -11,6 +11,13 @@ export default function Ordinals({ address }) {
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-3 my-5">
+
+            {(data?.results?.length === 0) &&
+                <span className="col-span-3 text-center text-lg lg:text-xl font-bold text-gradient uppercase">
+                    Sorry, you don&apos;t have any inscribed ordinals in your wallet!
+                </span>
+            }
+
             {data?.results?.map((ordinal) => {
                 console.log(ordinal);
                 return (

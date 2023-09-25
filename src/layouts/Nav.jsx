@@ -34,7 +34,6 @@ function Nav() {
 export default Nav;
 
 function NavPages({ type = "hr-nav", setShowMenu }) {
-  const wallet = useSelector((state) => state.wallet);
   let classNames;
   const { addresses } = useSelector((state) => state.wallet);
   const walletAddress = addresses?.addresses[0].address;
