@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import hamMenu from "../images/hammenu.svg";
 import logo from "../images/logo.svg";
 import { useEffect, useState } from "react";
@@ -59,22 +59,37 @@ function NavPages({ type = "hr-nav", setShowMenu }) {
         </button>
       </li>
       <li>
-        <Link to="/" className="font-medium text-white">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "font-bold text-white" : "text-slate-300"
+          }
+        >
           Home
-        </Link>
+        </NavLink>
       </li>
       <li>
-        <Link to="/" className="text-slate-300">
-          Marketplace
-        </Link>
+        <NavLink
+          to="/explore"
+          className={({ isActive }) =>
+            isActive ? "font-bold text-white" : "text-slate-300"
+          }
+        >
+          Explore
+        </NavLink>
       </li>
       <li>
-        <Link to="/" className="text-slate-300">
-          Creators
-        </Link>
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) =>
+            isActive ? "font-bold text-white" : "text-slate-300"
+          }
+        >
+          Dashboard
+        </NavLink>
       </li>
 
-      {/* <Profile embedOn={"nav"} /> */}
+      {/* lassName="text-slate-300" */}
 
       <div className="ml-auto">
         {!walletAddress ? (
@@ -99,13 +114,20 @@ function WalletUser() {
 
   return (
     <div className="relative">
-      <div id="profile" onClick={() => setOpenOptions((v) => !v)} className="h-12 w-12 ring-2 border-4 cursor-pointer hover:border-lime-400"></div>
+      <div
+        id="profile"
+        onClick={() => setOpenOptions((v) => !v)}
+        className="h-12 w-12 cursor-pointer border-4 ring-2 hover:border-lime-400"
+      ></div>
 
       {/* show on Click profile icon */}
       {openOptions ? (
         <div
-          onMouseLeave={() => { setOpenOptions(false) }}
-          className="absolute left-[-250%] top-[110%] rounded-md bg-stone-600 shadow-xl ">
+          onMouseLeave={() => {
+            setOpenOptions(false);
+          }}
+          className="absolute left-[-250%] top-[110%] rounded-md bg-stone-600 shadow-xl "
+        >
           <Link
             onClick={() => {
               setOpenOptions(false);

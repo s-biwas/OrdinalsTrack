@@ -3,14 +3,25 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
+  Outlet,
 } from "react-router-dom";
+import { Suspense, lazy } from "react";
+
 import AppLayout from "./layouts/AppLayout";
 import Home from "./pages/Home";
-import ErrorBoundary from "./components/ErrorBoundary";
-import Dashboard from "./pages/Dashboard";
-import Asset from "./pages/Asset";
-import Page404 from "./ui/Page404";
-import Detail from "./pages/Detail";
+const ErrorBoundary = lazy(() => import("./components/ErrorBoundary"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Asset = lazy(() => import("./pages/Asset"));
+const Page404 = lazy(() => import("./ui/Page404"));
+const Detail = lazy(() => import("./pages/Detail"));
+const Explore = lazy(() => import("./pages/Explore"));
+
+const SuspenseLayout = () => (
+  <Suspense fallback={<b>Loading...</b>}>
+    <Outlet />
+  </Suspense>
+);
+
 // import { WagmiConfig, configureChains, createConfig, mainnet } from 'wagmi'
 // import { publicProvider } from 'wagmi/providers/public'
 // import { InjectedConnector } from 'wagmi/connectors/injected'
@@ -38,14 +49,18 @@ import Detail from "./pages/Detail";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route errorElement={<ErrorBoundary />}>
-      <Route path="/" element={<AppLayout />}>
-        <Route index element={<Home />} />,
-        <Route path="/dashboard" element={<Dashboard />} />,
-        <Route path="/asset" element={<Asset />} />,
-        <Route path="/detail/:id" element={<Detail />} />,
+    <Route element={<SuspenseLayout />}>
+      <Route exact errorElement={<ErrorBoundary />}>
+        <Route path="/" element={<AppLayout />}>
+          <Route index element={<Home />} />,
+          <Route exact path="/explore" element={<Explore />} />,
+          <Route exact path="/dashboard" element={<Dashboard />} />,
+          <Route exact path="/asset" element={<Asset />} />,
+          <Route exact path="/detail/:id" element={<Detail />} />,
+        </Route>
+        <Route exact path="*" element={<Page404 />} />
       </Route>
-      <Route path="*" element={<Page404 />} />
+      ,
     </Route>,
   ),
 );
