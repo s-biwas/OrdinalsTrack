@@ -20,8 +20,8 @@ export default function Detail() {
 
 
     return (
-        <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row my-14">
-            <div className="basis-3/12 rounded-md">{Details &&
+        <div className="max-w-screen-xl min-h-[70vh] mx-auto flex flex-col md:flex-row my-14">
+            <div className="basis-3/12 h-fit rounded-md">{Details &&
                 <ContentDisplay
                     id={Details.id}
                     content_type={Details.content_type}
