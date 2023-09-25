@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createAvatar } from "../../utils/generateWeb3Avatar"
 import Copy from "../../images/Copy.svg"
+import UserDashboard from "./UserDashboard";
 
 export default function UserProfile({ address }) {
     useEffect(() => {
@@ -19,6 +20,7 @@ export default function UserProfile({ address }) {
     }
 
     return (
+      <>
         <div className="w-full border-2 rounded-md flex justify-center items-center flex-col min-h-[100px] p-7 gap-6 my-7">
             <h2 className="text-lg font-light border-b ">Connected With :</h2>
             <div className="flex flex-col items-start justify-start gap-4">
@@ -34,5 +36,7 @@ export default function UserProfile({ address }) {
                 </div>
             </div>
         </div>
+        <UserDashboard/>
+      </>
     )
 }
