@@ -101,7 +101,7 @@ function ContentDisplay({ id, content_type, number }) {
     return (
         <div className="group-hover:scale-105 text-white w-full h-full relative min-h-[130px] ">
             {contentElement}
-            <span className="absolute bottom-2 left-2 px-2 py-1 bg-slate-100/30 rounded-md text-slate-800">#{number}</span>
+            {number && <span className="absolute bottom-2 left-2 px-2 py-1 bg-slate-100/30 rounded-md text-slate-800">#{number}</span>}
         </div>
     );
 }
