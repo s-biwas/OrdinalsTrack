@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createAvatar } from "../../utils/generateWeb3Avatar"
 import Copy from "../../images/Copy.svg"
-import UserDashboard from "./UserDashboard";
+
 
 export default function UserProfile({ address }) {
     useEffect(() => {
@@ -36,7 +36,7 @@ export default function UserProfile({ address }) {
                 </div>
             </div>
         </div>
-        <UserDashboard/>
+       
       </>
     )
 }
