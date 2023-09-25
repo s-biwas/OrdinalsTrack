@@ -142,20 +142,22 @@ body {
   background: theme("colors.stone.800");
 }
 
+/* Hide the scrollbar */
 .custom-scrollbar {
   scrollbar-width: thin;
   /* Firefox */
   scrollbar-color: transparent transparent;
   /* Firefox */
-
   /* Hide the scrollbar in WebKit browsers */
-  &::-webkit-scrollbar {
-    width: 5px;
-    display: none;
-  }
+}
 
-  &::-webkit-scrollbar-thumb {
-    background-color: transparent;
-    display: none;
-  }
+/* Hide the scrollbar thumb in WebKit browsers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  display: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  display: none;
 }
