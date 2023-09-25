@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-async function fetchTextContent(url) {
+async function fetchJsonContent(url) {
     const response = await fetch(url);
     if (!response.ok) {
         throw new Error('Failed to fetch content');
@@ -8,6 +8,25 @@ async function fetchTextContent(url) {
     const jsonContent = await response.json();
     //return in preety format 
     return JSON.stringify(jsonContent, null, 2);
+}
+
+async function fetchTextContent(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error('Failed to fetch content');
+    }
+
+    const textContent = await response.text();
+
+    try {
+        // Attempt to parse the textContent as JSON
+        const parsedJSON = JSON.parse(textContent);
+        // If successful, stringify it in a pretty format
+        return JSON.stringify(parsedJSON, null, 2);
+    } catch (error) {
+        // If parsing as JSON fails, return the plain text content
+        return textContent;
+    }
 }
 
 function ContentDisplay({ id, content_type, number }) {
@@ -35,8 +54,19 @@ function ContentDisplay({ id, content_type, number }) {
                 src={contentUrl}
             />);
         }
-        else {
+        else if (content_type.startsWith('text/')) {
             fetchTextContent(contentUrl)
+                .then((textContent) => {
+                    setContentElement(<pre className="bg-slate-200/70 h-full w-full overflow-hidden p-5 text-black">{textContent}</pre>);
+                })
+                .catch((error) => {
+                    console.error('Error fetching text content:', error);
+                    setContentElement(
+                        <pre className=" h-full w-full overflow-hidden p-5 text-white border bg-slate-200/10">Something went wrong ʕ•̠͡•ʔ</pre>);
+                });
+        }
+        else {
+            fetchJsonContent(contentUrl)
                 .then((textContent) => {
                     setContentElement(<pre className="bg-slate-200/70 h-full w-full overflow-hidden p-5 text-black">{textContent}</pre>);
                     console.log(contentElement);
@@ -50,7 +80,7 @@ function ContentDisplay({ id, content_type, number }) {
     }, []);
 
     return (
-        <div className="group-hover:scale-105 text-white w-full h-full relative">
+        <div className="group-hover:scale-105 text-white w-full h-full relative min-h-[130px]">
             {contentElement}
             <span className="absolute bottom-2 left-2 px-2 py-1 bg-slate-100/70 text-slate-800">#{number}</span>
         </div>
