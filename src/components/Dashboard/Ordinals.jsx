@@ -19,7 +19,7 @@ export default function Ordinals({ address }) {
             }
 
             {data?.results?.map((ordinal) => {
-                console.log(ordinal.content_type)
+                console.log(ordinal)
                 return (
                     <div key={ordinal.id} className="p-5 cursor-pointer group relative">
                         <ContentDisplay id={ordinal.id} content_type={ordinal.content_type} number={ordinal.number} />

@@ -35,7 +35,24 @@ function ContentDisplay({ id, content_type, number }) {
     const contentUrl = `https://api.hiro.so/ordinals/v1/inscriptions/${id}/content`
 
     useEffect(() => {
-        if (content_type.startsWith('image/')) {
+        if (content_type === 'image/svg+xml') {
+            fetchTextContent(contentUrl)
+                .then((textContent) => {
+                    setContentElement(<iframe
+                        srcDoc={textContent}
+                        title="Embedded SVG"
+                        width="100%"
+                        height="400"
+                        sandbox="allow-scripts allow-same-origin"
+                    />);
+                })
+                .catch((error) => {
+                    console.error('Error fetching text content:', error);
+                    setContentElement(
+                        <pre className=" h-full w-full overflow-hidden p-5 text-white border bg-slate-200/10">Something went wrong ʕ•̠͡•ʔ</pre>);
+                });
+        }
+        else if (content_type.startsWith('image/')) {
             setContentElement(<img
                 src={contentUrl}
                 alt="Ordinal Image"
@@ -57,24 +74,24 @@ function ContentDisplay({ id, content_type, number }) {
         else if (content_type.startsWith('text/')) {
             fetchTextContent(contentUrl)
                 .then((textContent) => {
-                    setContentElement(<pre className="bg-slate-200/70 h-full w-full overflow-hidden p-5 text-black">{textContent}</pre>);
+                    setContentElement(<pre className="bg-slate-200/70 h-full w-full overflow-scroll p-5 text-black custom-scrollbar">{textContent}</pre>);
                 })
                 .catch((error) => {
                     console.error('Error fetching text content:', error);
                     setContentElement(
-                        <pre className=" h-full w-full overflow-hidden p-5 text-white border bg-slate-200/10">Something went wrong ʕ•̠͡•ʔ</pre>);
+                        <pre className=" h-full w-fulloverflow-scroll custom-scrollbar p-5 text-white border bg-slate-200/10">Something went wrong ʕ•̠͡•ʔ</pre>);
                 });
         }
         else {
             fetchJsonContent(contentUrl)
                 .then((textContent) => {
-                    setContentElement(<pre className="bg-slate-200/70 h-full w-full overflow-hidden p-5 text-black">{textContent}</pre>);
+                    setContentElement(<pre className="bg-slate-200/70 h-full w-full overflow-scroll p-5 text-black custom-scrollbar">{textContent}</pre>);
                     console.log(contentElement);
                 })
                 .catch((error) => {
                     console.error('Error fetching text content:', error);
                     setContentElement(
-                        <pre className=" h-full w-full overflow-hidden p-5 text-white border bg-slate-200/10">Something went wrong ʕ•̠͡•ʔ</pre>);
+                        <pre className=" h-full w-full overflow-scroll custom-scrollbar p-5 text-white border bg-slate-200/10">Something went wrong ʕ•̠͡•ʔ</pre>);
                 });
         }
     }, []);

@@ -141,3 +141,21 @@ select {
 body {
   background: theme("colors.stone.800");
 }
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  /* Firefox */
+  scrollbar-color: transparent transparent;
+  /* Firefox */
+
+  /* Hide the scrollbar in WebKit browsers */
+  &::-webkit-scrollbar {
+    width: 5px;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    display: none;
+  }
+}
