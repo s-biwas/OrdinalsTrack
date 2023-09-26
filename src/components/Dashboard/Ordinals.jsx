@@ -21,7 +21,6 @@ export default function Ordinals({ address }) {
         }
 
         {data?.results?.map((ordinal) => {
-          console.log(ordinal)
           return (
             <Link
               key={ordinal.id}

@@ -38,7 +38,6 @@ export const fetchInscriptionDetail = async (id) => {
         'Accept': 'application/json'
       }
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -53,7 +52,6 @@ export const fetchInscriptionTransfer = async (id) => {
         'Accept': 'application/json'
       }
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
