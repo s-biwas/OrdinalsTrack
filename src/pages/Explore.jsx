@@ -31,7 +31,7 @@ function Explore() {
 
   return (
     <>
-      <section className="flex flex-col gap-y-10">
+      <section className="flex flex-col gap-y-10 max-w-screen-xl mx-auto">
         <form
           className="flex flex-col items-center gap-y-8"
           onSubmit={handleSubmit(onSubmit)}
