@@ -76,30 +76,30 @@ function ContentDisplay({ id, content_type, number }) {
         else if (content_type.startsWith('text/')) {
             fetchTextContent(contentUrl)
                 .then((textContent) => {
-                    setContentElement(<pre className="bg-slate-200/80 h-full text-Grey9 w-full overflow-scroll p-5 custom-scrollbar rounded-md">{textContent}</pre>);
+                    setContentElement(<pre className="bg-slate-200/80 h-96 text-Grey9 w-full overflow-scroll p-5 custom-scrollbar rounded-md">{textContent}</pre>);
                 })
                 .catch((error) => {
                     console.error('Error fetching text content:', error);
                     setContentElement(
-                        <pre className=" h-full w-full overflow-scroll p-5 text-white border bg-slate-200/10">Something went wrong ʕ•̠͡•ʔ</pre>);
+                        <pre className=" h-96 w-full overflow-scroll p-5 text-white border bg-slate-200/10">Something went wrong ʕ•̠͡•ʔ</pre>);
                 });
         }
         else {
             fetchJsonContent(contentUrl)
                 .then((textContent) => {
-                    setContentElement(<pre className="bg-slate-200/80 h-full text-Grey9 w-full overflow-scroll p-5 custom-scrollbar rounded-md">{textContent}</pre>);
+                    setContentElement(<pre className="bg-slate-200/80 h-96 text-Grey9 w-full overflow-scroll p-5 custom-scrollbar rounded-md">{textContent}</pre>);
                     console.log(contentElement);
                 })
                 .catch((error) => {
                     console.error('Error fetching text content:', error);
                     setContentElement(
-                        <pre className=" h-full w-full overflow-scroll custom-scrollbar p-5 text-white border bg-slate-200/10">Something went wrong ʕ•̠͡•ʔ</pre>);
+                        <pre className=" h-96 w-full overflow-scroll custom-scrollbar p-5 text-white border bg-slate-200/10">Something went wrong ʕ•̠͡•ʔ</pre>);
                 });
         }
     }, []);
 
     return (
-        <div className="group-hover:scale-105 text-white w-full h-full relative min-h-[130px] ">
+        <div className="group-hover:scale-105 text-white w-full h-full max-h-[384px] relative min-h-[130px] ">
             {contentElement}
             {number && <span className="absolute bottom-2 left-2 px-2 py-1 bg-slate-100/30 rounded-md text-slate-800">#{number}</span>}
         </div>

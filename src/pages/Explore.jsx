@@ -26,7 +26,6 @@ function Explore() {
     // dispatch(updateInputAddress(data.address));
     setAddress(data.address);
     setSubmitted(true);
-    reset();
   }
 
   return (
@@ -79,7 +78,7 @@ function Explore() {
           </section>
           <DevTool control={control} />
         </form>
-        {submitted && <Ordinals address={address} />}
+        {submitted && <Ordinals key={address} address={address} />}
       </section>
     </>
   );
