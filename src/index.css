@@ -161,3 +161,41 @@ body {
   background-color: transparent;
   display: none;
 }
+
+.details-div p {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin-bottom: 10px;
+}
+
+.title {
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.details-div p span {
+  display: flex;
+  gap: 5px;
+  padding: 0px;
+}
+
+.copy-image {
+  max-width: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .details-div p {
+    display: block;
+    margin-bottom: 0px;
+  }
+
+  .details-div p span {
+    display: inline;
+  }
+
+  .title {
+    text-transform: none;
+    font-weight: 600;
+  }
+}
