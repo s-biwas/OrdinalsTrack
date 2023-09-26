@@ -1,16 +1,40 @@
 import { useQuery } from "@tanstack/react-query";
-import { getContent } from "../hooks/useFetch";
+import { fetchOrdinals } from "../hooks/useFetch";
+import { useSelector } from "react-redux";
 
 function ShowOrdinals() {
-  const id =
-    "cd35629a4c0def566b6e20a70357610e22f50a7a98ebe9ad0d9478a6f3a8edb2i0";
+  const { inputAddress } = useSelector((state) => state.explore);
   const { data } = useQuery({
-    queryKey: ["inscription"],
-    queryFn: () => getContent(id),
+    queryKey: ["inscription", inputAddress],
+    queryFn: () => fetchOrdinals(inputAddress),
   });
+  const filteredOrdinals = data?.results.filter((item) =>
+    item.content_type.startsWith("image/png"),
+  );
 
-  console.log(data);
-  return <div></div>;
+  return (
+    <div className="flex flex-wrap gap-4">
+      {filteredOrdinals ? (
+        filteredOrdinals?.map((image) => {
+          return (
+            <div key={image.id} className="h-48 w-48">
+              <img
+                src={getImage(image.id)}
+                alt="nft image"
+                className="h-full w-full rounded-md"
+              />
+            </div>
+          );
+        })
+      ) : (
+        <p>Seems like nothing is here</p>
+      )}
+    </div>
+  );
 }
 
 export default ShowOrdinals;
+
+function getImage(id) {
+  return `https://api.hiro.so/ordinals/v1/inscriptions/${id}/content`;
+}
