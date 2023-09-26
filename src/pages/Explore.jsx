@@ -1,14 +1,16 @@
 import { useForm } from "react-hook-form";
 import { GiCancel } from "react-icons/gi";
-import ShowOrdinals from "../components/ShowOrdinals";
+// import ShowOrdinals from "../components/ShowOrdinals";
 import { DevTool } from "@hookform/devtools";
 import { ErrorMessage } from "@hookform/error-message";
 import validate from "bitcoin-address-validation";
-import { useDispatch } from "react-redux";
-import { updateInputAddress } from "../services/exploreSlice";
+// import { useDispatch } from "react-redux";
+// import { updateInputAddress } from "../services/exploreSlice";
+import Ordinals from "../components/Dashboard/Ordinals";
+import { useState } from "react";
 
 function Explore() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -17,8 +19,13 @@ function Explore() {
     formState: { errors },
   } = useForm();
 
+  const [submitted, setSubmitted] = useState(false);
+  const [address, setAddress] = useState(null);
+
   function onSubmit(data) {
-    dispatch(updateInputAddress(data.address));
+    // dispatch(updateInputAddress(data.address));
+    setAddress(data.address);
+    setSubmitted(true);
     reset();
   }
 
@@ -72,7 +79,7 @@ function Explore() {
           </section>
           <DevTool control={control} />
         </form>
-        <ShowOrdinals />
+        {submitted && <Ordinals address={address} />}
       </section>
     </>
   );
