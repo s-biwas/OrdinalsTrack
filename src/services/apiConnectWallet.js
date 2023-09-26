@@ -3,6 +3,7 @@ import userSession from "../utils/userSession";
 import store from "../store";
 import { updateError, updateResponse } from "./walletSlice";
 import { askForAddress } from "../utils/getAddress";
+import toast from "react-hot-toast";
 // import Cookies from "js-cookie";
 
 export default async function apiConnectWallet() {
@@ -17,16 +18,19 @@ export default async function apiConnectWallet() {
       },
       onFinish: (response) => {
         store.dispatch(updateResponse(response));
+        toast.success("Wallet Connected");
         askForAddress();
         // Cookies.remove('OrdinalsToken');
         // Cookies.set('OrdinalsToken', response.authResponse, { expires: 7 });
         // console.log(Cookies.get('OrdinalsToken'));
       },
       onCancel: () => {
+        toast.error("Authentication cancelled");
         console.log("Authentication canceled");
       },
     });
   } catch (error) {
+    toast.error(error.message);
     store.dispatch(updateError(error.message));
 
     console.error("Authentication error:", error);

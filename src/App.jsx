@@ -9,6 +9,7 @@ import { Suspense, lazy } from "react";
 
 import AppLayout from "./layouts/AppLayout";
 import Home from "./pages/Home";
+import { Toaster } from "react-hot-toast";
 const ErrorBoundary = lazy(() => import("./components/ErrorBoundary"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Asset = lazy(() => import("./pages/Asset"));
@@ -66,7 +67,31 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <>
+      <Toaster
+        position="top-center"
+        gutter={12}
+        containerStyle={{ margin: "8px" }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 5000,
+          },
+          style: {
+            fontSize: "16px",
+            maxWidth: "500px",
+            padding: "16px 24px",
+            backgroundColor: "gray",
+            color: "white",
+          },
+        }}
+      />
+      <RouterProvider router={router}></RouterProvider>
+    </>
+  );
 }
 
 // function App() {
