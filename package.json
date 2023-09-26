@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@emotion/styled": "^11.11.0",
+    "@hookform/error-message": "^2.0.1",
     "@mui/material": "^5.14.10",
     "@reduxjs/toolkit": "^1.9.5",
     "@stacks/connect": "^7.4.0",
@@ -24,10 +25,12 @@
     "@walletconnect/utils": "^2.10.1",
     "@walletconnect/web3wallet": "^1.9.1",
     "axios": "^1.5.0",
+    "bitcoin-address-validation": "^2.2.3",
     "framer-motion": "^10.16.4",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.46.2",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
     "react-infinite-scroll-component": "^6.1.0",
@@ -40,6 +43,7 @@
     "wagmi": "^1.4.2"
   },
   "devDependencies": {
+    "@hookform/devtools": "^4.3.1",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",

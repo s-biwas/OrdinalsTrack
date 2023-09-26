@@ -5,15 +5,16 @@ import Ordinals from "../components/Dashboard/Ordinals";
 function Dashboard() {
   const { addresses } = useSelector((state) => state.wallet);
   // const walletAddress = addresses?.addresses[0].address;
-  const walletAddress = "bc1pmt8fnwu8pzvs3l3gt7862z3sakqlq7vx4ur4wh57taykdqzqv58szgtwds";
+  const walletAddress =
+    "bc1psf7vd9pe6an90emsqr4n26d8a50tww9zdysmlnfvxam2zu5kzqxscf9kul";
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-screen-xl flex-col">
-      {walletAddress &&
+      {walletAddress && (
         <>
           <UserProfile address={walletAddress} />
           <Ordinals address={walletAddress} />
         </>
-      }
+      )}
     </div>
   );
 }
