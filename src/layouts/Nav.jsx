@@ -35,11 +35,10 @@ export default Nav;
 
 function NavPages({ type = "hr-nav", setShowMenu }) {
   let classNames;
-  const { addresses } = useSelector((state) => state.wallet);
-  const walletAddress = addresses?.addresses[0].address;
+  const { response } = useSelector((state) => state.wallet);
   useEffect(() => {
-    walletAddress && createAvatar("profile", walletAddress);
-  }, [walletAddress]);
+    response && createAvatar("profile", response);
+  }, [response]);
 
   if (type === "hr-nav") {
     classNames = "hidden items-center justify-center gap-x-6 sm:flex";
@@ -92,7 +91,7 @@ function NavPages({ type = "hr-nav", setShowMenu }) {
       {/* lassName="text-slate-300" */}
 
       <div className="ml-auto">
-        {!walletAddress ? (
+        {!response ? (
           <button
             onClick={apiConnectWallet}
             className="rounded-md p-2 font-medium ring-2 ring-green-400 hover:bg-green-300/30"

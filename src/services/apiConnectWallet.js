@@ -21,6 +21,7 @@ export default async function apiConnectWallet() {
           updateResponse(
             response?.authResponsePayload?.profile?.btcAddress?.p2tr?.mainnet,
           ),
+          // <Navigate to="/dashboard" />,
         );
         toast.success("Wallet Connected");
         askForAddress();
