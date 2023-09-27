@@ -110,7 +110,7 @@ function ContentDisplay({ id, content_type, number }) {
   }, []);
 
   return (
-    <div className="flex h-72 w-72 flex-col items-center justify-center gap-y-4 rounded-md  bg-stone-700 px-2  text-white shadow-xl group-hover:scale-105">
+    <div className="flex h-72 w-72 flex-col items-center justify-center gap-y-4 rounded-md  bg-stone-700 px-4  text-white shadow-xl group-hover:scale-105">
       {contentElement}
       {number && (
         <span className="rounded- self-stretch bg-green-400 px-2 py-1 text-center font-bold shadow-[10px_10px_8px_3px_rgba(0,0,0,0.9)] group-hover:shadow-xl">

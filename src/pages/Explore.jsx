@@ -8,6 +8,7 @@ import validate from "bitcoin-address-validation";
 // import { updateInputAddress } from "../services/exploreSlice";
 import Ordinals from "../components/Dashboard/Ordinals";
 import { useState } from "react";
+import UserProfile from "../components/Dashboard/UserProfile";
 
 function Explore() {
   // const dispatch = useDispatch();
@@ -26,11 +27,13 @@ function Explore() {
     // dispatch(updateInputAddress(data.address));
     setAddress(data.address);
     setSubmitted(true);
+    removeEventListener;
+    reset();
   }
 
   return (
     <>
-      <section className="flex flex-col gap-y-10 max-w-screen-xl mx-auto">
+      <section className="mx-auto flex max-w-screen-xl flex-col gap-y-10">
         <form
           className="flex flex-col items-center gap-y-8"
           onSubmit={handleSubmit(onSubmit)}
@@ -78,6 +81,7 @@ function Explore() {
           </section>
           <DevTool control={control} />
         </form>
+        <UserProfile address={address} accountStatus="BTC Accout of:" />
         {submitted && <Ordinals key={address} address={address} />}
       </section>
     </>

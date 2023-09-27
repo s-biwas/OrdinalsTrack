@@ -17,7 +17,11 @@ export default async function apiConnectWallet() {
         icon: myAppIcon,
       },
       onFinish: (response) => {
-        store.dispatch(updateResponse(response));
+        store.dispatch(
+          updateResponse(
+            response?.authResponsePayload?.profile?.btcAddress?.p2tr?.mainnet,
+          ),
+        );
         toast.success("Wallet Connected");
         askForAddress();
         // Cookies.remove('OrdinalsToken');

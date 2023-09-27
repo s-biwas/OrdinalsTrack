@@ -1,42 +1,48 @@
 import { useEffect, useState } from "react";
-import { createAvatar } from "../../utils/generateWeb3Avatar"
-import Copy from "../../images/Copy.svg"
+import { createAvatar } from "../../utils/generateWeb3Avatar";
+import Copy from "../../images/Copy.svg";
 
+export default function UserProfile({
+  address,
+  accountStatus = "Connected With :",
+}) {
+  useEffect(() => {
+    createAvatar("avatar", address);
+  }, [address]);
 
-export default function UserProfile({ address }) {
-    useEffect(() => {
-        createAvatar("avatar", address);
-    }, [address]);
+  const [copied, setCopied] = useState(false);
 
-    const [copied, setCopied] = useState(false);
-
-    const copyToClipboard = async () => {
-        try {
-            await navigator.clipboard.writeText(address);
-            setCopied(true);
-        } catch (err) {
-            console.error('Failed to copy: ', err);
-        }
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(address);
+      setCopied(true);
+    } catch (err) {
+      console.error("Failed to copy: ", err);
     }
+  };
 
-    return (
-        <>
-            <div className="w-full border-2 rounded-md flex justify-center items-center flex-col min-h-[100px] p-7 gap-6 my-7">
-                <h2 className="text-lg font-light border-b ">Connected With :</h2>
-                <div className="flex flex-col items-start justify-start gap-4">
-                    <div className="flex gap-2 flex-col md:flex-row items-center overflow-hidden">
-                        <div id="avatar" className="w-10 h-10"></div>
-                        <span className="text-sm md:text-base lg:text-lg lg:font-medium break-all">{address}</span>
-                    </div>
-                    <div
-                        onClick={copyToClipboard}
-                        className="flex gap-1 items-center cursor-pointer group">
-                        <img src={Copy} alt="copy address" className="w-5 h-5" />
-                        <span className=" text-[#7c7c7c] group-hover:text-white">{!copied ? "Copy Address" : "copied"}</span>
-                    </div>
-                </div>
-            </div>
-
-        </>
-    )
+  return (
+    <>
+      <div className="my-7 flex min-h-[100px] w-full flex-col items-center justify-center gap-6 rounded-md border-2 p-7">
+        <h2 className="border-b text-lg font-light ">{accountStatus}</h2>
+        <div className="flex flex-col items-start justify-start gap-4">
+          <div className="flex flex-col items-center gap-2 overflow-hidden md:flex-row">
+            <div id="avatar" className="h-10 w-10"></div>
+            <span className="break-all text-sm md:text-base lg:text-lg lg:font-medium">
+              {address}
+            </span>
+          </div>
+          <div
+            onClick={copyToClipboard}
+            className="group flex cursor-pointer items-center gap-1"
+          >
+            <img src={Copy} alt="copy address" className="h-5 w-5" />
+            <span className=" text-[#7c7c7c] group-hover:text-white">
+              {!copied ? "Copy Address" : "copied"}
+            </span>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }

@@ -3,16 +3,15 @@ import UserProfile from "../components/Dashboard/UserProfile";
 import Ordinals from "../components/Dashboard/Ordinals";
 
 function Dashboard() {
-  const { addresses } = useSelector((state) => state.wallet);
-  // const walletAddress = addresses?.addresses[0].address;
-  const walletAddress =
-    "bc1p8njewpwlqdfcp68npcwkg0ctdpruq875m7a76tkkavgpl4nnqpzqun8ajx";
+  const { response } = useSelector((state) => state.wallet);
+  // const walletAddress =
+  //   "bc1p8njewpwlqdfcp68npcwkg0ctdpruq875m7a76tkkavgpl4nnqpzqun8ajx";
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-screen-xl flex-col">
-      {walletAddress && (
+      {response && (
         <>
-          <UserProfile address={walletAddress} />
-          <Ordinals address={walletAddress} />
+          <UserProfile address={response} />
+          <Ordinals address={response} />
         </>
       )}
     </div>
