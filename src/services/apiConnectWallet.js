@@ -17,9 +17,10 @@ export default async function apiConnectWallet() {
         icon: myAppIcon,
       },
       onFinish: (response) => {
+        console.log(response);
         store.dispatch(
           updateResponse(
-            response?.authResponsePayload?.profile?.btcAddress?.p2tr?.mainnet,
+            response?.authResponsePayload?.profile?.btcAddress?.p2tr?.mainnet || response?.authResponsePayload?.profile?.stxAddress?.mainnet
           ),
           // <Navigate to="/dashboard" />,
         );
