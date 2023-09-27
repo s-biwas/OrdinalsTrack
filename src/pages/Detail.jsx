@@ -78,7 +78,7 @@ export default function Detail() {
                             <p><strong className="text-green-500 title">Sat Rarity:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.sat_rarity}</span></p>
                             <p><strong className="text-green-500 title">Sat Coinbase Height:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.sat_coinbase_height}</span></p>
                             <p><strong className="text-green-500 title">Inscribed With:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.genesis_fee} sats</span></p>
-                            <p><strong className="text-green-500 title">Timestamp:</strong> <span style={{ wordBreak: 'break-all' }}>{new Date(Details.timestamp).toLocaleString()}</span></p>
+
                         </div>
                     )}
                     {Transfers && Transfers.results.length > 0 ? (
