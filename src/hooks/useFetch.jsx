@@ -45,7 +45,6 @@ export const fetchInscriptionDetail = async (id) => {
         },
       },
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -65,6 +64,23 @@ export const fetchInscriptionTransfer = async (id) => {
     );
     console.log(response.data);
     return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const fetchFees = async (id) => {
+  try {
+    const response = await axios.get(
+      `https://mempool.space/api/tx/${id}`,
+      {
+        headers: {
+          Accept: "application/json",
+        },
+      },
+    );
+    return response.data.fee;
   } catch (error) {
     console.error(error);
     throw error;

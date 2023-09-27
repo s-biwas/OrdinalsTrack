@@ -1,11 +1,12 @@
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { fetchInscriptionDetail, fetchInscriptionTransfer } from "../hooks/useFetch";
+import { fetchFees, fetchInscriptionDetail, fetchInscriptionTransfer } from "../hooks/useFetch";
 import ContentDisplay from "../components/Dashboard/Content";
 import CopyIcon from "../images/Copy.svg";
 import toast from "react-hot-toast";
 // import { useEffect } from "react";
 // import moment from "moment/moment";
+
 
 
 const copyToClipboard = async (textToCopy) => {
@@ -76,24 +77,31 @@ export default function Detail() {
                             <p><strong className="text-green-500 title">Sat Ordinal:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.sat_ordinal}</span></p>
                             <p><strong className="text-green-500 title">Sat Rarity:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.sat_rarity}</span></p>
                             <p><strong className="text-green-500 title">Sat Coinbase Height:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.sat_coinbase_height}</span></p>
+                            <p><strong className="text-green-500 title">Inscribed With:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.genesis_fee} sats</span></p>
                             <p><strong className="text-green-500 title">Timestamp:</strong> <span style={{ wordBreak: 'break-all' }}>{new Date(Details.timestamp).toLocaleString()}</span></p>
                         </div>
                     )}
                     {Transfers && Transfers.results.length > 0 ? (
                         <div>
                             <h2 className="text-xl font-semibold mb-4">Transfer Details</h2>
-                            {Transfers.results.map((transfer) => (
-                                <div key={transfer.tx_id} className="flex flex-col mb-6 details-div">
-                                    <p><strong className="text-blue-500 title">Transfer ID:</strong> <span style={{ wordBreak: 'break-all' }}>{transfer.tx_id}<CopyButton copyText={transfer.tx_id} /></span></p>
-                                    <p><strong className="text-blue-500 title">Block Height:</strong> <span style={{ wordBreak: 'break-all' }}>{transfer.block_height}</span></p>
-                                    <p><strong className="text-blue-500 title">Block Hash:</strong> <span style={{ wordBreak: 'break-all' }}>{transfer.block_hash}<CopyButton copyText={transfer.block_hash} /></span></p>
-                                    <p><strong className="text-blue-500 title">Address:</strong> <span style={{ wordBreak: 'break-all' }}>{transfer.address}<CopyButton copyText={transfer.address} /></span>
-                                    </p>
-                                    <p><strong className="text-blue-500 title">Value:</strong> <span style={{ wordBreak: 'break-all' }}>{transfer.value}</span></p>
-                                    <p><strong className="text-blue-500 title">Timestamp:</strong> <span style={{ wordBreak: 'break-all' }}>{new Date(transfer.timestamp).toLocaleString()}</span></p>
-                                    <hr className="my-2" />
-                                </div>
-                            ))}
+                            {Transfers.results.map((transfer) => {
+                                const fetch = async () => {
+                                    console.log(await fetchFees(transfer.tx_id));
+                                }
+                                fetch();
+                                return (
+                                    <div key={transfer.tx_id} className="flex flex-col mb-6 details-div">
+                                        <p><strong className="text-blue-500 title">Transfer ID:</strong> <span style={{ wordBreak: 'break-all' }}>{transfer.tx_id}<CopyButton copyText={transfer.tx_id} /></span></p>
+                                        <p><strong className="text-blue-500 title">Block Height:</strong> <span style={{ wordBreak: 'break-all' }}>{transfer.block_height}</span></p>
+                                        <p><strong className="text-blue-500 title">Block Hash:</strong> <span style={{ wordBreak: 'break-all' }}>{transfer.block_hash}<CopyButton copyText={transfer.block_hash} /></span></p>
+                                        <p><strong className="text-blue-500 title">Address:</strong> <span style={{ wordBreak: 'break-all' }}>{transfer.address}<CopyButton copyText={transfer.address} /></span>
+                                        </p>
+                                        <p><strong className="text-blue-500 title">Value:</strong> <span style={{ wordBreak: 'break-all' }}>{transfer.value}</span></p>
+                                        <p><strong className="text-blue-500 title">Timestamp:</strong> <span style={{ wordBreak: 'break-all' }}>{new Date(transfer.timestamp).toLocaleString()}</span></p>
+                                        <hr className="my-2" />
+                                    </div>
+                                )
+                            })}
                         </div>
                     ) : (
                         <p>No transfers available</p>
