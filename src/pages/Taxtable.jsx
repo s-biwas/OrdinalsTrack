@@ -2,12 +2,12 @@ import React from 'react'
 import { useTable, useSortBy } from 'react-table'
 import { CSVLink } from "react-csv";
 
-function Taxtable({ data }) {
+function Taxtable({ data }) {//data is coming as props from the parent component
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Account No.',
-        accessor: 'id',
+        Header: 'Account No.',//this is the head of column
+        accessor: 'id',//this is the data of head account no. Here they takes the value of array object id from the props data 
       },
       {
         Header: 'tax year ',
