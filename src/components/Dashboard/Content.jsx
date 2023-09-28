@@ -60,7 +60,7 @@ function ContentDisplay({ id, content_type, number }) {
                 <img
                     src={contentUrl}
                     alt="Ordinal Image"
-                    className="h-48 w-48 rounded-md"
+                    className="h-60 w-60 rounded-md"
                 />,
             );
         } else if (content_type.startsWith("video/")) {
