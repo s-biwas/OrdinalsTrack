@@ -41,24 +41,6 @@ const fetchBTCtoUSDExchangeRate = async () => {
   }
 };
 
-const fetchBTCtoUSDExchangeRate = async () => {
-  try {
-    const response = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd",
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch exchange rate");
-    }
-
-    const data = await response.json();
-    return data.bitcoin.usd;
-  } catch (error) {
-    console.error("Error fetching exchange rate:", error);
-    return null;
-  }
-};
-
 export default function Detail() {
   const { id } = useParams();
 
@@ -118,12 +100,7 @@ export default function Detail() {
             {/* Current USD */}
             <p>
               <strong className="title text-green-500">Current USD:</strong>{" "}
-              <span className="break-all">
-                $
-                {btcToUsdExchangeRate !== null
-                  ? (Details.genesis_fee / 100000000) * btcToUsdExchangeRate
-                  : "null"}
-              </span>
+              <span className="break-all">${Details.genesis_fee}</span>
             </p>
           </div>
         )}
@@ -308,6 +285,10 @@ export default function Detail() {
           ) : (
             <p>No transfers available</p>
           )}
+          <ProfitLoss
+            Transfers={Transfers?.results}
+            InscribedFee={Details?.genesis_fee}
+          />
         </div>
       </div>
     </div>
