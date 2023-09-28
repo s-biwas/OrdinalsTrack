@@ -7,6 +7,7 @@ function Dashboard() {
   const { response } = useSelector((state) => state.wallet);
   // const walletAddress =
   //   "bc1p8njewpwlqdfcp68npcwkg0ctdpruq875m7a76tkkavgpl4nnqpzqun8ajx";
+  // bc1p9zya5s96q4eyg3urtp3gurekqpk9tkgkqny9skqrysld9hjvc92q2eq4g6
   return (
     <div
       className={`mx-auto grid  min-h-[70vh] max-w-screen-xl place-items-center `}

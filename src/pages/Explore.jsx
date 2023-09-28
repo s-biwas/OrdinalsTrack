@@ -81,7 +81,7 @@ function Explore() {
           </section>
           <DevTool control={control} />
         </form>
-        <UserProfile address={address} accountStatus="BTC Accout of:" />
+        <UserProfile address={address} accountStatus="BTC Account of:" />
         {submitted && <Ordinals key={address} address={address} />}
       </section>
     </>
