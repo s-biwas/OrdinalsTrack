@@ -4,6 +4,8 @@ import { fetchFees, fetchInscriptionDetail, fetchInscriptionTransfer } from "../
 import ContentDisplay from "../components/Dashboard/Content";
 import CopyIcon from "../images/Copy.svg";
 import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+
 // import { useEffect } from "react";
 // import moment from "moment/moment";
 
@@ -18,6 +20,24 @@ const copyToClipboard = async (textToCopy) => {
     }
 };
 
+const fetchBTCtoUSDExchangeRate = async () => {
+    try {
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+      );
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch exchange rate");
+      }
+  
+      const data = await response.json();
+      return data.bitcoin.usd;
+    } catch (error) {
+      console.error("Error fetching exchange rate:", error);
+      return null;
+    }
+  };
+
 export default function Detail() {
     const { id } = useParams();
 
@@ -30,6 +50,20 @@ export default function Detail() {
         queryKey: ["OrdinalsInscription", id],
         queryFn: () => fetchInscriptionDetail(id),
     });
+
+    const [btcToUsdExchangeRate, setBtcToUsdExchangeRate] = useState(null);
+
+    useEffect(() => {
+      // Fetch BTC to USD exchange rate
+      fetchBTCtoUSDExchangeRate().then((rate) => {
+        if (rate !== null) {
+          setBtcToUsdExchangeRate(rate);
+        }
+      });
+    }, []);
+
+   
+      
 
     //let timeStamp = Transfers?.results[0]?.timestamp;
 
@@ -77,7 +111,14 @@ export default function Detail() {
                             <p><strong className="text-green-500 title">Sat Ordinal:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.sat_ordinal}</span></p>
                             <p><strong className="text-green-500 title">Sat Rarity:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.sat_rarity}</span></p>
                             <p><strong className="text-green-500 title">Sat Coinbase Height:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.sat_coinbase_height}</span></p>
-                            <p><strong className="text-green-500 title">Inscribed With:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.genesis_fee} sats</span></p>
+                            <p><strong className="text-green-500 title">BTC Value:</strong> <span style={{ wordBreak: 'break-all' }}>
+                                {Details.genesis_fee / 100000000} BTC 
+                                </span></p>
+                                <p><strong className="text-green-500 title">Current USD:</strong> <span style={{ wordBreak: 'break-all' }}>
+                                {btcToUsdExchangeRate !== null
+                                ? (Details.genesis_fee / 100000000) * btcToUsdExchangeRate + " USD": "Fetching USD value..."} 
+                                </span></p>
+                               
 
                         </div>
                     )}
