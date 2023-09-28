@@ -9,6 +9,7 @@ import validate from "bitcoin-address-validation";
 import Ordinals from "../components/Dashboard/Ordinals";
 import { useState } from "react";
 import UserProfile from "../components/Dashboard/UserProfile";
+import Exploreslide from "./Exploreslide";
 
 function Explore() {
   // const dispatch = useDispatch();
@@ -82,6 +83,7 @@ function Explore() {
           <DevTool control={control} />
         </form>
         <UserProfile address={address} accountStatus="BTC Accout of:" />
+        {submitted && <Exploreslide/>}
         {submitted && <Ordinals key={address} address={address} />}
       </section>
     </>
