@@ -4,6 +4,8 @@ import { fetchFees, fetchInscriptionDetail, fetchInscriptionTransfer } from "../
 import ContentDisplay from "../components/Dashboard/Content";
 import CopyIcon from "../images/Copy.svg";
 import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+
 // import { useEffect } from "react";
 // import moment from "moment/moment";
 
@@ -15,6 +17,24 @@ const copyToClipboard = async (textToCopy) => {
         toast.success("Copied to clipboard");
     } catch (error) {
         toast.error("failed to copy")
+    }
+};
+
+const fetchBTCtoUSDExchangeRate = async () => {
+    try {
+        const response = await fetch(
+            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch exchange rate");
+        }
+
+        const data = await response.json();
+        return data.bitcoin.usd;
+    } catch (error) {
+        console.error("Error fetching exchange rate:", error);
+        return null;
     }
 };
 
@@ -30,6 +50,20 @@ export default function Detail() {
         queryKey: ["OrdinalsInscription", id],
         queryFn: () => fetchInscriptionDetail(id),
     });
+
+    const [btcToUsdExchangeRate, setBtcToUsdExchangeRate] = useState(null);
+
+    useEffect(() => {
+        // Fetch BTC to USD exchange rate
+        fetchBTCtoUSDExchangeRate().then((rate) => {
+            if (rate !== null) {
+                setBtcToUsdExchangeRate(rate);
+            }
+        });
+    }, []);
+
+
+
 
     //let timeStamp = Transfers?.results[0]?.timestamp;
 
@@ -53,8 +87,8 @@ export default function Detail() {
     // }, [Transfers]);
 
     return (
-        <div className="max-w-screen-xl min-h-[70vh] mx-auto flex flex-col md:flex-row my-14 gap-5">
-            <div className="w-full lg:w-1/2 h-fit rounded-md">
+        <div className="max-w-screen-xl min-h-[70vh] mx-auto flex flex-col md:flex-row my-14 gap-5 ">
+            <div className="w-full lg:w-1/2 h-fit rounded-md flex flex-col items-center  ">
                 {Details && (
                     <ContentDisplay
                         id={Details.id}
@@ -62,8 +96,32 @@ export default function Detail() {
                         className="object-cover w-full h-full"
                     />
                 )}
+                {Details && (
+                    <div className="text-center mt-2 bg-black rounded p-3">
+                        {/* BTC Value */}
+                        <p>
+                            <strong className="text-green-500 title">BTC Value:</strong>{" "}
+                            <span className="break-all">
+                                {Details.genesis_fee / 100000000} BTC
+                            </span>
+                        </p>
+
+                        {/* Current USD */}
+                        <p>
+                            <strong className="text-green-500 title">Current USD:</strong>{" "}
+                            <span className="break-all">
+                                {btcToUsdExchangeRate !== null
+                                    ? (Details.genesis_fee / 100000000) * btcToUsdExchangeRate + " USD"
+                                    : "Fetching USD value..."}
+                            </span>
+                        </p>
+                    </div>
+                )}
             </div>
-            <div className="w-full lg:w-1/2 h-fit rounded-md bg-black-400 text-white p-2 shadow-lg">
+
+
+
+            <div className="w-full lg:w-1/2 h-fit rounded-md bg-black-400 text-white p-2 shadow-lg border-l border-gray-300">
                 <div className="flex flex-col gap-10 md:gap-6 lg:gap-8 details-div">
                     {Details && (
                         <div className="flex flex-col">
@@ -77,7 +135,8 @@ export default function Detail() {
                             <p><strong className="text-green-500 title">Sat Ordinal:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.sat_ordinal}</span></p>
                             <p><strong className="text-green-500 title">Sat Rarity:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.sat_rarity}</span></p>
                             <p><strong className="text-green-500 title">Sat Coinbase Height:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.sat_coinbase_height}</span></p>
-                            <p><strong className="text-green-500 title">Inscribed With:</strong> <span style={{ wordBreak: 'break-all' }}>{Details.genesis_fee} sats</span></p>
+
+
 
                         </div>
                     )}
