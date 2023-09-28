@@ -9,6 +9,8 @@ import ContentDisplay from "../components/Dashboard/Content";
 import CopyIcon from "../images/Copy.svg";
 import toast from "react-hot-toast";
 import ProfitLoss from "../components/ProfitLoss";
+import { useEffect, useState } from "react";
+
 // import { useEffect } from "react";
 // import moment from "moment/moment";
 
@@ -18,6 +20,42 @@ const copyToClipboard = async (textToCopy) => {
     toast.success("Copied to clipboard");
   } catch (error) {
     toast.error("failed to copy");
+  }
+};
+
+const fetchBTCtoUSDExchangeRate = async () => {
+  try {
+    const response = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd",
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch exchange rate");
+    }
+
+    const data = await response.json();
+    return data.bitcoin.usd;
+  } catch (error) {
+    console.error("Error fetching exchange rate:", error);
+    return null;
+  }
+};
+
+const fetchBTCtoUSDExchangeRate = async () => {
+  try {
+    const response = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd",
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch exchange rate");
+    }
+
+    const data = await response.json();
+    return data.bitcoin.usd;
+  } catch (error) {
+    console.error("Error fetching exchange rate:", error);
+    return null;
   }
 };
 
@@ -56,8 +94,8 @@ export default function Detail() {
   // }, [Transfers]);
 
   return (
-    <div className="mx-auto my-14 flex min-h-[70vh] max-w-screen-xl flex-col gap-5 md:flex-row">
-      <div className="h-fit w-full rounded-md lg:w-1/2">
+    <div className="mx-auto my-14 flex min-h-[70vh] max-w-screen-xl flex-col gap-5 md:flex-row ">
+      <div className="flex h-fit w-full flex-col items-center rounded-md bg-[#222] p-3 lg:w-1/2 ">
         {Details && (
           <ContentDisplay
             id={Details.id}
@@ -65,79 +103,125 @@ export default function Detail() {
             className="h-full w-full object-cover"
           />
         )}
+        {Details && (
+          <div className="mt-2 rounded  p-3 text-center">
+            <p>
+              {/* BTC Value */}
+              {/* <strong className="text-green-500 title">BTC Value:</strong>{" "}
+                            <span className="break-all">
+                                {Details.genesis_fee / 100000000} BTC
+                            </span> */}
+              <strong className="title text-green-500">Sats:</strong>{" "}
+              <span className="break-all">{Details.genesis_fee}</span>
+            </p>
+
+            {/* Current USD */}
+            <p>
+              <strong className="title text-green-500">Current USD:</strong>{" "}
+              <span className="break-all">
+                $
+                {btcToUsdExchangeRate !== null
+                  ? (Details.genesis_fee / 100000000) * btcToUsdExchangeRate
+                  : "null"}
+              </span>
+            </p>
+          </div>
+        )}
       </div>
-      <div className="bg-black-400 h-fit w-full rounded-md p-2 text-white shadow-lg lg:w-1/2">
+
+      <div className="bg-black-400 h-fit w-full rounded-md border-gray-300 p-2 text-white shadow-lg  lg:w-1/2">
         <div className="details-div flex flex-col gap-10 md:gap-6 lg:gap-8">
           {Details && (
-            <div className="flex flex-col">
+            <div className="flex flex-col rounded border border-gray-400 bg-[#222] p-4">
               <h2 className="mb-4 text-2xl font-bold uppercase">
                 Inscription #{Details.number}
               </h2>
-              <p>
-                <strong className="title text-green-500">Type:</strong>{" "}
-                <span style={{ wordBreak: "break-all" }}>
-                  {Details.content_type}
-                </span>
-              </p>
-              <p>
-                <strong className="title text-green-500">ID:</strong>{" "}
-                <span style={{ wordBreak: "break-all" }}>
-                  {Details.id}
-                  <CopyButton copyText={Details.id} />
-                </span>
-              </p>
-              <p>
-                <strong className="title text-green-500">
-                  Content Length:
-                </strong>{" "}
-                <span style={{ wordBreak: "break-all" }}>
-                  {Details.content_length}
-                </span>
-              </p>
-              <p>
-                <strong className="title text-green-500">Address:</strong>{" "}
-                <span style={{ wordBreak: "break-all" }}>
-                  {Details.address}
-                  <CopyButton copyText={Details.address} />
-                </span>
-              </p>
-              <p>
-                <strong className="title text-green-500">
-                  Inscription TXID:
-                </strong>{" "}
-                <span style={{ wordBreak: "break-all" }}>
-                  {Details.tx_id}
-                  <CopyButton copyText={Details.tx_id} />
-                </span>
-              </p>
-              <p>
-                <strong className="title text-green-500">Sat Ordinal:</strong>{" "}
-                <span style={{ wordBreak: "break-all" }}>
-                  {Details.sat_ordinal}
-                </span>
-              </p>
-              <p>
-                <strong className="title text-green-500">Sat Rarity:</strong>{" "}
-                <span style={{ wordBreak: "break-all" }}>
-                  {Details.sat_rarity}
-                </span>
-              </p>
-              <p>
-                <strong className="title text-green-500">
-                  Sat Coinbase Height:
-                </strong>{" "}
-                <span style={{ wordBreak: "break-all" }}>
-                  {Details.sat_coinbase_height}
-                </span>
-              </p>
-              <p>
-                <strong className="title text-green-500">
-                  Inscribed With:
-                </strong>{" "}
-                <span style={{ wordBreak: "break-all" }}>
-                  {Details.genesis_fee} sats
-                </span>
-              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="rounded-md border p-4">
+                  <p>
+                    <strong className="title text-green-500">Type:</strong>{" "}
+                    <br />
+                    <span style={{ wordBreak: "break-all" }}>
+                      {Details.content_type}
+                    </span>
+                  </p>
+                </div>
+                <div className="rounded-md border p-4">
+                  <p>
+                    <strong className="title text-green-500">ID:</strong> <br />
+                    <span style={{ wordBreak: "break-all" }}>
+                      {Details.id.slice(0, 6)}...
+                      <CopyButton copyText={Details.id} />
+                    </span>
+                  </p>
+                </div>
+                <div className="rounded-md border p-4">
+                  <p>
+                    <strong className="title text-green-500">
+                      Content Length:
+                    </strong>{" "}
+                    <br />
+                    <span style={{ wordBreak: "break-all" }}>
+                      {Details.content_length}
+                    </span>
+                  </p>
+                </div>
+                <div className="rounded-md border p-4">
+                  <p>
+                    <strong className="title text-green-500">Address:</strong>{" "}
+                    <br />
+                    <span style={{ wordBreak: "break-all" }}>
+                      {Details.address.slice(0, 6)}...
+                      <CopyButton copyText={Details.address} />
+                    </span>
+                  </p>
+                </div>
+                <div className="rounded-md border p-4">
+                  <p>
+                    <strong className="title text-green-500">
+                      Inscription TXID:
+                    </strong>{" "}
+                    <br />
+                    <span style={{ wordBreak: "break-all" }}>
+                      {Details.tx_id.slice(0, 6)}...
+                      <CopyButton copyText={Details.tx_id} />
+                    </span>
+                  </p>
+                </div>
+                <div className="rounded-md border p-4">
+                  <p>
+                    <strong className="title text-green-500">
+                      Sat Ordinal:
+                    </strong>{" "}
+                    <br />
+                    <span style={{ wordBreak: "break-all" }}>
+                      {Details.sat_ordinal}
+                    </span>
+                  </p>
+                </div>
+                <div className="rounded-md border p-4">
+                  <p>
+                    <strong className="title text-green-500">
+                      Sat Rarity:
+                    </strong>{" "}
+                    <br />
+                    <span style={{ wordBreak: "break-all" }}>
+                      {Details.sat_rarity}
+                    </span>
+                  </p>
+                </div>
+                <div className="rounded-md border p-4">
+                  <p>
+                    <strong className="title text-green-500">
+                      Sat Coinbase Height:
+                    </strong>{" "}
+                    <br />
+                    <span style={{ wordBreak: "break-all" }}>
+                      {Details.sat_coinbase_height}
+                    </span>
+                  </p>
+                </div>
+              </div>
             </div>
           )}
 
@@ -154,49 +238,64 @@ export default function Detail() {
                     key={transfer.tx_id}
                     className="details-div mb-6 flex flex-col"
                   >
-                    <p>
-                      <strong className="title text-blue-500">
+                    <p className="m-2 rounded border border-[#666] p-1">
+                      <strong className="title text-blue-500 ">
                         Transfer ID:
-                      </strong>{" "}
+                      </strong>
+                      <br />{" "}
                       <span style={{ wordBreak: "break-all" }}>
                         {transfer.tx_id}
                         <CopyButton copyText={transfer.tx_id} />
                       </span>
                     </p>
-                    <p>
+                    <p className="m-2 rounded border border-[#666] p-1">
                       <strong className="title text-blue-500">
                         Block Height:
                       </strong>{" "}
+                      <br />{" "}
                       <span style={{ wordBreak: "break-all" }}>
                         {transfer.block_height}
                       </span>
                     </p>
-                    <p>
+                    <p className="m-2 rounded border border-[#666] p-1">
+                      <strong className="title text-blue-500">
+                        Block Height:
+                      </strong>{" "}
+                      <br />{" "}
+                      <span style={{ wordBreak: "break-all" }}>
+                        {transfer.block_height}
+                      </span>
+                    </p>
+                    <p className="m-2 rounded  border border-[#666]  p-1 ">
                       <strong className="title text-blue-500">
                         Block Hash:
                       </strong>{" "}
+                      <br />{" "}
                       <span style={{ wordBreak: "break-all" }}>
                         {transfer.block_hash}
                         <CopyButton copyText={transfer.block_hash} />
                       </span>
                     </p>
-                    <p>
+                    <p className="m-2 rounded  border border-[#666]  p-1">
                       <strong className="title text-blue-500">Address:</strong>{" "}
+                      , <br />
                       <span style={{ wordBreak: "break-all" }}>
                         {transfer.address}
                         <CopyButton copyText={transfer.address} />
                       </span>
                     </p>
-                    <p>
+                    <p className="m-2 rounded  border border-[#666]  p-1">
                       <strong className="title text-blue-500">Value:</strong>{" "}
+                      <br />{" "}
                       <span style={{ wordBreak: "break-all" }}>
                         {transfer.value}
                       </span>
                     </p>
-                    <p>
+                    <p className="m-2 rounded  border border-[#666]  p-1">
                       <strong className="title text-blue-500">
                         Timestamp:
                       </strong>{" "}
+                      <br />{" "}
                       <span style={{ wordBreak: "break-all" }}>
                         {new Date(transfer.timestamp).toLocaleString()}
                       </span>
@@ -209,10 +308,6 @@ export default function Detail() {
           ) : (
             <p>No transfers available</p>
           )}
-          <ProfitLoss
-            Transfers={Transfers?.results}
-            InscribedFee={Details?.genesis_fee}
-          />
         </div>
       </div>
     </div>

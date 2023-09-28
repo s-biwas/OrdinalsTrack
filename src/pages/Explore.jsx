@@ -9,6 +9,7 @@ import validate from "bitcoin-address-validation";
 import Ordinals from "../components/Dashboard/Ordinals";
 import { useState } from "react";
 import UserProfile from "../components/Dashboard/UserProfile";
+import Exploreslide from "./Exploreslide";
 
 function Explore() {
   // const dispatch = useDispatch();
