@@ -61,7 +61,7 @@ function ProfitLossLayout({
     );
   }
 
-  const BtcToUsd = usdValue.data.rates?.BTC || null;
+  const BtcToUsd = usdValue?.data?.rates?.BTC || null;
   const BtcFees = fees / 100000000;
   const feeInUsd = (BtcToUsd * BtcFees).toFixed(2);
   if (fees && Transfers.length !== 1) {
