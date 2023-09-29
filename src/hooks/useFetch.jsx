@@ -89,7 +89,18 @@ export const getUsdEquivalent = async (timestamp) => {
     const response = await axios.get(
       `http://api.coinlayer.com/${convertTimestamp(
         timestamp,
-      )}?access_key=817ad133457fd8c52aec51edc4871ab8&symbols=BTC`,
+      )}?access_key=9de7629476f0fb310df01308950b66dd&symbols=BTC`,
+    );
+    return response;
+  } catch (error) {
+    throw new Error(`Unable to get usd equivalent${error.message}`);
+  }
+};
+
+export const getWholeTransfers = async (address) => {
+  try {
+    const response = await axios.get(
+      `https://mempool.space/api/address/${address}/txs/chain`,
     );
     return response;
   } catch (error) {
