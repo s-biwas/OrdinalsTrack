@@ -43,6 +43,7 @@ const fetchBTCtoUSDExchangeRate = async () => {
 
 export default function Detail() {
   const { id } = useParams();
+  const [btcToUsdExchangeRate, setBtcToUsdExchangeRate] = useState(null);
 
   const { data: Transfers } = useQuery({
     queryKey: ["Transfers", id],
@@ -54,6 +55,20 @@ export default function Detail() {
     queryFn: () => fetchInscriptionDetail(id),
   });
 
+  useEffect(() => {
+    // Fetch BTC to USD exchange rate when the component mounts
+    fetchBTCtoUSDExchangeRate()
+      .then((exchangeRate) => {
+        if (exchangeRate !== null) {
+          setBtcToUsdExchangeRate(exchangeRate);
+        } else {
+          console.log("Unable to fetch exchange rate. Please try again later.");
+        }
+      })
+      .catch((error) => {
+        console.error("An error occurred while fetching exchange rate:", error);
+      });
+  }, []);
   //let timeStamp = Transfers?.results[0]?.timestamp;
 
   // useEffect(() => {
@@ -97,11 +112,15 @@ export default function Detail() {
               <span className="break-all">{Details.genesis_fee}</span>
             </p>
 
-            {/* Current USD */}
-            <p>
-              <strong className="title text-green-500">Current USD:</strong>{" "}
-              <span className="break-all">${Details.genesis_fee}</span>
-            </p>
+            {/* Calculate and display the equivalent amount in USD */}
+            {btcToUsdExchangeRate !== null && (
+              <p>
+                <strong className="title text-green-500">Equivalent USD:</strong>{" "}
+                <span className="break-all">
+                  ${(Details.genesis_fee / 100000000) * btcToUsdExchangeRate}
+                </span>
+              </p>
+            )}
           </div>
         )}
       </div>

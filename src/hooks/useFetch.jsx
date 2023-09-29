@@ -89,7 +89,7 @@ export const getUsdEquivalent = async (timestamp) => {
     const response = await axios.get(
       `http://api.coinlayer.com/${convertTimestamp(
         timestamp,
-      )}?access_key=48e5d5deb66d10b271ca85768e728483&symbols=BTC`,
+      )}?access_key=817ad133457fd8c52aec51edc4871ab8&symbols=BTC`,
     );
     return response;
   } catch (error) {
