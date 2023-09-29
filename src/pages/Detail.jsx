@@ -53,6 +53,13 @@ export default function Detail() {
             </p>
           </div>
         )}
+        <div>
+          <ProfitLoss
+            Transfers={Transfers?.results}
+            InscribedFee={Details?.genesis_fee}
+          />
+          {/* <p className="opacity-[0.5]">*Profit and loss are shown only if the ordinals is purchased or sold!</p> */}
+        </div>
       </div>
 
       <div className="bg-black-400 h-fit w-full rounded-md border-gray-300 p-2 text-white shadow-lg  lg:w-1/2">
@@ -234,10 +241,7 @@ export default function Detail() {
           ) : (
             <p>No transfers available</p>
           )}
-          <ProfitLoss
-            Transfers={Transfers?.results}
-            InscribedFee={Details?.genesis_fee}
-          />
+
         </div>
       </div>
     </div>
