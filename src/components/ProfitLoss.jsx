@@ -6,7 +6,7 @@ export default function ProfitLoss({ Transfers, InscribedFee }) {
   const [smallValue, setSmallValue] = useState(null);
   return (
     <>
-      <h2>Profit and Loss</h2>
+      {/* <h2>Profit and Loss</h2> */}
       {Transfers?.map((item) => (
         <ProfitLossLayout
           key={item.tx_id}
@@ -54,11 +54,11 @@ function ProfitLossLayout({
   }
 
   return (
-    <section className="flex items-center justify-between border border-red-300 px-6 py-3 ">
-      <div>{InscribedFee == fees ? "Inscribed Fee" : "Sold Fee"}</div>
+    <section className="flex items-center justify-center gap-2 border border-[#8888] rounded px-2 py-3 ">
+      <div>{InscribedFee == fees ? "Inscribed Fee :" : "Sold Fee"}</div>
       <div className="inline-block">
-        {fees} sat&nbsp;
-        <span className="text-green-300">{feeInUsd}</span>
+        {fees} sats&nbsp;
+        <span className="text-green-300">(${feeInUsd})</span>
       </div>
     </section>
   );
