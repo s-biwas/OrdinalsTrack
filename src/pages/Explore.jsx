@@ -1,19 +1,14 @@
 import { useForm } from "react-hook-form";
 import { GiCancel } from "react-icons/gi";
-// import ShowOrdinals from "../components/ShowOrdinals";
 import { DevTool } from "@hookform/devtools";
 import { ErrorMessage } from "@hookform/error-message";
 import validate from "bitcoin-address-validation";
-// import { useDispatch } from "react-redux";
-// import { updateInputAddress } from "../services/exploreSlice";
 import Ordinals from "../components/Dashboard/Ordinals";
-import { useState } from "react";
 import UserProfile from "../components/Dashboard/UserProfile";
-import Exploreslide from "./Exploreslide";
 import TaxOrdinals from "../components/TaxOrdinals";
+import { useSearchParams } from "react-router-dom";
 
 function Explore() {
-  // const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -22,14 +17,12 @@ function Explore() {
     formState: { errors },
   } = useForm();
 
-  const [submitted, setSubmitted] = useState(false);
-  const [address, setAddress] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  let address = searchParams.get("address");
 
   function onSubmit(data) {
-    // dispatch(updateInputAddress(data.address));
-    setAddress(data.address);
-    setSubmitted(true);
     removeEventListener;
+    setSearchParams({ address: data?.address });
     reset();
   }
 
@@ -83,8 +76,9 @@ function Explore() {
           </section>
           <DevTool control={control} />
         </form>
+
         <UserProfile address={address} accountStatus="BTC Account of:" />
-        {submitted && <Ordinals key={address} address={address} />}
+        <Ordinals key={address} address={address} />
         <TaxOrdinals />
       </section>
     </>
