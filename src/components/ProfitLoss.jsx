@@ -4,19 +4,30 @@ import { useState } from "react";
 
 export default function ProfitLoss({ Transfers, InscribedFee }) {
   const [smallValue, setSmallValue] = useState(null);
+
   return (
     <>
-      {/* <h2>Profit and Loss</h2> */}
-      {Transfers?.map((item) => (
-        <ProfitLossLayout
-          key={item.tx_id}
-          Transfers={Transfers}
-          transferData={item}
-          InscribedFee={InscribedFee}
-          smallValue={smallValue}
-          setSmallValue={setSmallValue}
-        />
-      ))}
+      <table className="min-w-full bg-black border-collapse">
+        <thead>
+          <tr>
+            <th className="py-2 px-4 border">Sold Price</th>
+            <th className="py-2 px-4 border">Minted Price</th>
+            <th className="py-2 px-4 border">Profit/Loss</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Transfers?.map((item) => (
+            <ProfitLossLayout
+              key={item.tx_id}
+              Transfers={Transfers}
+              transferData={item}
+              InscribedFee={InscribedFee}
+              smallValue={smallValue}
+              setSmallValue={setSmallValue}
+            />
+          ))}
+        </tbody>
+      </table>
     </>
   );
 }
@@ -40,26 +51,55 @@ function ProfitLossLayout({
   });
 
   if (loaderA || loaderB) {
-    return <h2>Loading...</h2>;
+    return (
+      <tr>
+        <td className="py-2 px-4 border">Loading...</td>
+        <td className="py-2 px-4 border"></td>
+        <td className="py-2 px-4 border"></td>
+
+      </tr>
+    );
   }
 
   const BtcToUsd = usdValue.data.rates.BTC;
   const BtcFees = fees / 100000000;
   const feeInUsd = (BtcToUsd * BtcFees).toFixed(2);
   if (fees && Transfers.length !== 1) {
-    setSmallValue(smallValue == null || fees < smallValue ? fees : smallValue);
+    setSmallValue(
+      smallValue == null || fees < smallValue ? fees : smallValue
+    );
   }
   if (fees == smallValue) {
     return null;
   }
 
+  if (InscribedFee == null || fees == null) {
+    return (
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    );
+  }
+
+  const feeDifference = fees - InscribedFee;
+  const isProfit = feeDifference > 0;
+  const isLoss = feeDifference < 0;
+
   return (
-    <section className="flex items-center justify-center gap-2 border border-[#8888] rounded px-2 py-3 ">
-      <div>{InscribedFee == fees ? "Inscribed Fee :" : "Sold Fee"}</div>
-      <div className="inline-block">
-        {fees} sats&nbsp;
-        <span className="text-green-300">(${feeInUsd})</span>
-      </div>
-    </section>
+    <tr>
+      <td className="py-2 px-4 border">
+        {fees} sats (${feeInUsd})
+      </td>
+      <td className="py-2 px-4 border">{InscribedFee} sats</td>
+      <td className="py-2 px-4 border" style={{ color: isProfit ? 'green' : isLoss ? 'red' : 'gray' }}>
+        {isProfit && "Profit"}
+        {isLoss && "Loss"}
+        {(!isProfit && !isLoss) && "Neither"}:{" "}
+        {feeDifference > 0 ? "+" : ""}
+        {feeDifference} sats
+      </td>
+    </tr>
   );
 }

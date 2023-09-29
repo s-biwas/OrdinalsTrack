@@ -58,7 +58,7 @@ export default function Detail() {
             Transfers={Transfers?.results}
             InscribedFee={Details?.genesis_fee}
           />
-          <p className="opacity-[0.5]">*Profit and loss are shown only if the ordinals is purchased or sold!</p>
+          {/* <p className="opacity-[0.5]">*Profit and loss are shown only if the ordinals is purchased or sold!</p> */}
         </div>
       </div>
 
