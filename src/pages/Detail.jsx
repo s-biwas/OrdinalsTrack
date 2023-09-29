@@ -43,17 +43,8 @@ export default function Detail() {
             className="h-full w-full object-cover"
           />
         )}
-        {Details && (
-          <div className="mt-2 rounded  p-3 text-center">
-            <p>
-              <strong className="title text-green-500">BTC Value:</strong>{" "}
-              <span className="break-all">
-                {Details.genesis_fee / 100000000} BTC
-              </span>
-            </p>
-          </div>
-        )}
-        <div>
+
+        <div className="mt-5">
           <ProfitLoss
             Transfers={Transfers?.results}
             InscribedFee={Details?.genesis_fee}

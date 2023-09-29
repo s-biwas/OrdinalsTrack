@@ -7,7 +7,7 @@ export default function ProfitLoss({ Transfers, InscribedFee }) {
 
   return (
     <>
-      <table className="min-w-full bg-black border-collapse">
+      <table className="min-w-full bg-black border-collapse ]">
         <thead>
           <tr>
             <th className="py-2 px-4 border">Sold Price</th>
@@ -64,6 +64,7 @@ function ProfitLossLayout({
   const BtcToUsd = usdValue.data.rates?.BTC || null;
   const BtcFees = fees / 100000000;
   const feeInUsd = (BtcToUsd * BtcFees).toFixed(2);
+
   if (fees && Transfers.length !== 1) {
     setSmallValue(
       smallValue == null || fees < smallValue ? fees : smallValue
@@ -86,19 +87,26 @@ function ProfitLossLayout({
   const feeDifference = fees - InscribedFee;
   const isProfit = feeDifference > 0;
   const isLoss = feeDifference < 0;
+  if (feeDifference === 0) {
+    return null; // Don't render the row if feeDifference is 0
+  }
+  const profitLossInUsd = ((feeDifference * BtcToUsd) / 100000000).toFixed(2);
+  const InscribedFeeInUsd = ((InscribedFee * BtcToUsd) / 100000000).toFixed(2);
+
+
 
   return (
     <tr>
       <td className="py-2 px-4 border">
         {fees} sats (${feeInUsd})
       </td>
-      <td className="py-2 px-4 border">{InscribedFee} sats</td>
+      <td className="py-2 px-4 border">{InscribedFee} sats (${InscribedFeeInUsd})</td>
       <td className="py-2 px-4 border" style={{ color: isProfit ? 'green' : isLoss ? 'red' : 'gray' }}>
         {isProfit && "Profit"}
         {isLoss && "Loss"}
-        {(!isProfit && !isLoss) && "Neither"}:{" "}
+
         {feeDifference > 0 ? "+" : ""}
-        {feeDifference} sats
+        {feeDifference} sats (${profitLossInUsd})
       </td>
     </tr>
   );
