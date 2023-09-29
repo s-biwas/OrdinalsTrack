@@ -79,8 +79,10 @@ function Explore() {
         </form>
         <UserProfile address={address} accountStatus="BTC Account of:" />
         <Exploreslide />
-        <Ordinals key={address} address={address} />
-        <TaxOrdinals address={address} />
+        <div className="w-full flex items-center justify-center flex-col gap-5">
+          <Ordinals key={address} address={address} />
+          <TaxOrdinals address={address} />
+        </div>
       </section>
     </>
   );
