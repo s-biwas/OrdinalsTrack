@@ -10,6 +10,7 @@ import Ordinals from "../components/Dashboard/Ordinals";
 import { useState } from "react";
 import UserProfile from "../components/Dashboard/UserProfile";
 import Exploreslide from "./Exploreslide";
+import TaxOrdinals from "../components/TaxOrdinals";
 
 function Explore() {
   // const dispatch = useDispatch();
@@ -84,6 +85,7 @@ function Explore() {
         </form>
         <UserProfile address={address} accountStatus="BTC Account of:" />
         {submitted && <Ordinals key={address} address={address} />}
+        <TaxOrdinals />
       </section>
     </>
   );

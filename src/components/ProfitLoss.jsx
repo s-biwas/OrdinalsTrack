@@ -10,6 +10,7 @@ export default function ProfitLoss({ Transfers, InscribedFee }) {
       {Transfers?.map((item) => (
         <ProfitLossLayout
           key={item.tx_id}
+          Transfers={Transfers}
           transferData={item}
           InscribedFee={InscribedFee}
           smallValue={smallValue}
@@ -21,6 +22,7 @@ export default function ProfitLoss({ Transfers, InscribedFee }) {
 }
 
 function ProfitLossLayout({
+  Transfers,
   transferData,
   InscribedFee,
   smallValue,
@@ -44,10 +46,10 @@ function ProfitLossLayout({
   const BtcToUsd = usdValue.data.rates.BTC;
   const BtcFees = fees / 100000000;
   const feeInUsd = (BtcToUsd * BtcFees).toFixed(2);
-  if (fees) {
+  if (fees && Transfers.length !== 1) {
     setSmallValue(smallValue == null || fees < smallValue ? fees : smallValue);
   }
-  if (fees === smallValue) {
+  if (fees == smallValue) {
     return null;
   }
 
