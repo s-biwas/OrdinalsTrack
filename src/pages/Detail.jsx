@@ -9,8 +9,6 @@ import ContentDisplay from "../components/Dashboard/Content";
 import CopyIcon from "../images/Copy.svg";
 import toast from "react-hot-toast";
 import ProfitLoss from "../components/ProfitLoss";
-import { useEffect, useState } from "react";
-
 // import { useEffect } from "react";
 // import moment from "moment/moment";
 
@@ -23,28 +21,8 @@ const copyToClipboard = async (textToCopy) => {
   }
 };
 
-const fetchBTCtoUSDExchangeRate = async () => {
-  try {
-    const response = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd",
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch exchange rate");
-    }
-
-    const data = await response.json();
-    return data.bitcoin.usd;
-  } catch (error) {
-    console.error("Error fetching exchange rate:", error);
-    return null;
-  }
-};
-
 export default function Detail() {
   const { id } = useParams();
-  const [btcToUsdExchangeRate, setBtcToUsdExchangeRate] = useState(null);
-
   const { data: Transfers } = useQuery({
     queryKey: ["Transfers", id],
     queryFn: () => fetchInscriptionTransfer(id),
@@ -54,41 +32,6 @@ export default function Detail() {
     queryKey: ["OrdinalsInscription", id],
     queryFn: () => fetchInscriptionDetail(id),
   });
-
-  useEffect(() => {
-    // Fetch BTC to USD exchange rate when the component mounts
-    fetchBTCtoUSDExchangeRate()
-      .then((exchangeRate) => {
-        if (exchangeRate !== null) {
-          setBtcToUsdExchangeRate(exchangeRate);
-        } else {
-          console.log("Unable to fetch exchange rate. Please try again later.");
-        }
-      })
-      .catch((error) => {
-        console.error("An error occurred while fetching exchange rate:", error);
-      });
-  }, []);
-  //let timeStamp = Transfers?.results[0]?.timestamp;
-
-  // useEffect(() => {
-  //     const fetchPrice = async () => {
-  //         const date = moment.unix(timeStamp / 1000).format("YYYY-MM-DD");
-  //         const response = await fetch(`http://localhost:3000/coindesk-data`, {
-  //             method: "POST",
-  //             headers: {
-  //                 "Content-Type": "application/json",
-  //             },
-  //             body: JSON.stringify({
-  //                 date: date,
-  //             }),
-  //         });
-  //         const data = await response.json();
-  //         console.log(data);
-  //     };
-
-  //     { Transfers && fetchPrice(); }
-  // }, [Transfers]);
 
   return (
     <div className="mx-auto my-14 flex min-h-[70vh] max-w-screen-xl flex-col gap-5 md:flex-row ">
@@ -103,24 +46,11 @@ export default function Detail() {
         {Details && (
           <div className="mt-2 rounded  p-3 text-center">
             <p>
-              {/* BTC Value */}
-              {/* <strong className="text-green-500 title">BTC Value:</strong>{" "}
-                            <span className="break-all">
-                                {Details.genesis_fee / 100000000} BTC
-                            </span> */}
-              <strong className="title text-green-500">Sats:</strong>{" "}
-              <span className="break-all">{Details.genesis_fee}</span>
+              <strong className="title text-green-500">BTC Value:</strong>{" "}
+              <span className="break-all">
+                {Details.genesis_fee / 100000000} BTC
+              </span>
             </p>
-
-            {/* Calculate and display the equivalent amount in USD */}
-            {btcToUsdExchangeRate !== null && (
-              <p>
-                <strong className="title text-green-500">Equivalent USD:</strong>{" "}
-                <span className="break-all">
-                  ${(Details.genesis_fee / 100000000) * btcToUsdExchangeRate}
-                </span>
-              </p>
-            )}
           </div>
         )}
       </div>

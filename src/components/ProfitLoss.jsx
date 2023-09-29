@@ -3,7 +3,7 @@ import { fetchFees, getUsdEquivalent } from "../hooks/useFetch";
 import { useState } from "react";
 
 export default function ProfitLoss({ Transfers, InscribedFee }) {
-  const [smallValue, setSmallValue] = useState(-1);
+  const [smallValue, setSmallValue] = useState(null);
   return (
     <>
       <h2>Profit and Loss</h2>
@@ -44,10 +44,10 @@ function ProfitLossLayout({
   const BtcToUsd = usdValue.data.rates.BTC;
   const BtcFees = fees / 100000000;
   const feeInUsd = (BtcToUsd * BtcFees).toFixed(2);
-  if (feeInUsd) {
-    setSmallValue(feeInUsd);
+  if (fees) {
+    setSmallValue(smallValue == null || fees < smallValue ? fees : smallValue);
   }
-  if (feeInUsd && smallValue !== feeInUsd) {
+  if (fees === smallValue) {
     return null;
   }
 
