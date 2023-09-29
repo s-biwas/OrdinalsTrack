@@ -142,25 +142,21 @@ body {
   background: theme("colors.stone.800");
 }
 
-/* Hide the scrollbar */
-.custom-scrollbar {
-  scrollbar-width: thin;
-  /* Firefox */
-  scrollbar-color: transparent transparent;
-  /* Firefox */
-  /* Hide the scrollbar in WebKit browsers */
+.cbar::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
 }
 
-/* Hide the scrollbar thumb in WebKit browsers */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-  display: none;
+.cbar::-webkit-scrollbar-track {
+  background: rgba(77, 72, 72, 0.139);
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: transparent;
-  display: none;
+.cbar::-webkit-scrollbar-thumb {
+  background: theme("colors.slate.200");
+  border-radius: 20px;
 }
+
+
 
 .details-div p {
   display: flex;
@@ -221,4 +217,8 @@ body {
 .content {
   background-color: rgba(41, 37, 36, 0.909);
   backdrop-filter: blur(3.722630023956299px);
+}
+
+#main-nav {
+  z-index: 100000;
 }

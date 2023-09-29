@@ -15,7 +15,7 @@ import createAvatar from "../utils/generateWeb3Avatar";
 function Nav() {
   const [showMenu, setShowMenu] = useState(false);
   return (
-    <nav className="shadow-x sticky top-0 z-50 mx-auto flex max-w-screen-xl items-center justify-between bg-stone-800/80 py-4">
+    <nav id="main-nav" className="shadow-x sticky top-0 z-50 mx-auto flex max-w-screen-xl items-center justify-between bg-stone-800/80 py-4">
       <h1 className="text-gradient font-paytone text-2xl font-bold uppercase ">
         Ordinal`Scan
       </h1>
