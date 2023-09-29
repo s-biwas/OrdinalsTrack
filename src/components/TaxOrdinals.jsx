@@ -2,10 +2,14 @@ import { CSVLink } from "react-csv";
 import convertTimestamp, {
   convertTimestampNew,
 } from "../utils/convertTimestamp";
-import { getWholeTransfers } from "../hooks/useFetch";
+import { fetchOrdinals, getWholeTransfers } from "../hooks/useFetch";
 import { useQuery } from "@tanstack/react-query";
 
-function TaxOrdinals({ ordinalData, address }) {
+function TaxOrdinals({ address }) {
+  const { data: ordinalData } = useQuery({
+    queryKey: ["Ordinals"],
+    queryFn: () => fetchOrdinals(address),
+  });
   const { data: wholeTransfer } = useQuery({
     queryKey: ["wholeTransfer", address],
     queryFn: () => getWholeTransfers(address),

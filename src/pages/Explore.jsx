@@ -7,6 +7,7 @@ import Ordinals from "../components/Dashboard/Ordinals";
 import UserProfile from "../components/Dashboard/UserProfile";
 import TaxOrdinals from "../components/TaxOrdinals";
 import { useSearchParams } from "react-router-dom";
+import Exploreslide from "./Exploreslide";
 
 function Explore() {
   const {
@@ -19,16 +20,6 @@ function Explore() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   let address = searchParams.get("address");
-  const { data: ordinalData } = useQuery({
-    queryKey: ["Ordinals"],
-    queryFn: () => fetchOrdinals(address),
-  });
-
-  const { data: mempoolData } = useQuery({
-    querykey: ["mempool", ordinalData?.results[0]?.tx_id],
-    queryFn: () => fetchInscriptionTransfer(ordinalData?.results[0]?.tx_id),
-  });
-  console.log(mempoolData);
 
   function onSubmit(data) {
     removeEventListener;
@@ -87,8 +78,9 @@ function Explore() {
           <DevTool control={control} />
         </form>
         <UserProfile address={address} accountStatus="BTC Account of:" />
+        <Exploreslide />
         <Ordinals key={address} address={address} />
-        <TaxOrdinals />
+        <TaxOrdinals address={address} />
       </section>
     </>
   );
