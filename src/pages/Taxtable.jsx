@@ -55,7 +55,7 @@ function Taxtable({ data }) {
           margin: "auto",
           borderCollapse: "collapse",
           width: "100%",
-          backgroundColor: "#111",
+          backgroundColor: "#9999",
         }}
       >
         <thead>
@@ -120,7 +120,6 @@ function Taxtable({ data }) {
         filename={"tax_table.csv"}
         style={{ display: "block", marginTop: "20px" }}
       >
-        Download CSV
       </CSVLink>
     </div>
   );

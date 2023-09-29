@@ -96,3 +96,14 @@ export const getUsdEquivalent = async (timestamp) => {
     throw new Error(`Unable to get usd equivalent${error.message}`);
   }
 };
+
+export const getWholeTransfers = async (address) => {
+  try {
+    const response = await axios.get(
+      `https://mempool.space/api/address/${address}/txs/chain`,
+    );
+    return response;
+  } catch (error) {
+    throw new Error(`Unable to get usd equivalent${error.message}`);
+  }
+};

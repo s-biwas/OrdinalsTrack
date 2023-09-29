@@ -7,7 +7,7 @@ import Ordinals from "../components/Dashboard/Ordinals";
 import UserProfile from "../components/Dashboard/UserProfile";
 import TaxOrdinals from "../components/TaxOrdinals";
 import { useSearchParams } from "react-router-dom";
-import Exploreslide from "./Exploreslide"
+import Exploreslide from "./Exploreslide";
 
 function Explore() {
   const {
@@ -30,7 +30,6 @@ function Explore() {
   return (
     <>
       <section className="mx-auto flex max-w-screen-xl flex-col gap-y-10">
-
         <form
           className="flex flex-col items-center gap-y-8"
           onSubmit={handleSubmit(onSubmit)}
@@ -81,7 +80,7 @@ function Explore() {
         <UserProfile address={address} accountStatus="BTC Account of:" />
         <Exploreslide />
         <Ordinals key={address} address={address} />
-        <TaxOrdinals />
+        <TaxOrdinals address={address} />
       </section>
     </>
   );

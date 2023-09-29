@@ -7,12 +7,12 @@ export default function ProfitLoss({ Transfers, InscribedFee }) {
 
   return (
     <>
-      <table className="min-w-full bg-black border-collapse ]">
+      <table className="min-w-full bg-black border-collapse">
         <thead>
           <tr>
-            <th className="py-2 px-4 border">Sold Price</th>
-            <th className="py-2 px-4 border">Minted Price</th>
-            <th className="py-2 px-4 border">Profit/Loss</th>
+            <th className="border px-4 py-2">Sold Price</th>
+            <th className="border px-4 py-2">Minted Price</th>
+            <th className="border px-4 py-2">Profit/Loss</th>
           </tr>
         </thead>
         <tbody>
@@ -53,22 +53,19 @@ function ProfitLossLayout({
   if (loaderA || loaderB) {
     return (
       <tr>
-        <td className="py-2 px-4 border">Loading...</td>
-        <td className="py-2 px-4 border"></td>
-        <td className="py-2 px-4 border"></td>
-
+        <td className="border px-4 py-2">Loading...</td>
+        <td className="border px-4 py-2"></td>
+        <td className="border px-4 py-2"></td>
       </tr>
     );
   }
 
-  const BtcToUsd = usdValue.data.rates?.BTC || null;
+  const BtcToUsd = usdValue?.data?.rates?.BTC || null;
   const BtcFees = fees / 100000000;
   const feeInUsd = (BtcToUsd * BtcFees).toFixed(2);
 
   if (fees && Transfers.length !== 1) {
-    setSmallValue(
-      smallValue == null || fees < smallValue ? fees : smallValue
-    );
+    setSmallValue(smallValue == null || fees < smallValue ? fees : smallValue);
   }
   if (fees == smallValue) {
     return null;
@@ -97,16 +94,19 @@ function ProfitLossLayout({
 
   return (
     <tr>
-      <td className="py-2 px-4 border">
+      <td className="border px-4 py-2">
         {fees} sats (${feeInUsd})
       </td>
-      <td className="py-2 px-4 border">{InscribedFee} sats (${InscribedFeeInUsd})</td>
-      <td className="py-2 px-4 border" style={{ color: isProfit ? 'green' : isLoss ? 'red' : 'gray' }}>
+      <td className="border px-4 py-2">{InscribedFee} sats (${InscribedFeeInUsd})</td>
+      <td
+        className="border px-4 py-2"
+        style={{ color: isProfit ? "green" : isLoss ? "red" : "gray" }}
+      >
         {isProfit && "Profit"}
         {isLoss && "Loss"}
-
+        {(!isProfit && !isLoss) && "Neither"}:{" "}
         {feeDifference > 0 ? "+" : ""}
-        {feeDifference} sats (${profitLossInUsd})
+        {feeDifference} sats
       </td>
     </tr>
   );
