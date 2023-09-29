@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ReactSVG } from "react-svg";
 
 async function fetchJsonContent(url) {
     const response = await fetch(url);
@@ -35,26 +36,9 @@ function ContentDisplay({ id, content_type, number }) {
 
     useEffect(() => {
         if (content_type === "image/svg+xml") {
-            fetchTextContent(contentUrl)
-                .then((textContent) => {
-                    setContentElement(
-                        <iframe
-                            srcDoc={textContent}
-                            title="Embedded SVG"
-                            width="100%"
-                            height="400"
-                            sandbox="allow-scripts allow-same-origin"
-                        />,
-                    );
-                })
-                .catch((error) => {
-                    console.error("Error fetching text content:", error);
-                    setContentElement(
-                        <pre className="overflow-hidden border p-5 text-white">
-                            Something went wrong ʕ•̠͡•ʔ
-                        </pre>,
-                    );
-                });
+            setContentElement(
+                <ReactSVG src={contentUrl} className="h-full w-full rounded-md" />
+            );
         } else if (content_type.startsWith("image/")) {
             setContentElement(
                 <img
@@ -66,17 +50,17 @@ function ContentDisplay({ id, content_type, number }) {
 
         } else if (content_type.startsWith("video/")) {
             setContentElement(
-                <video controls src={contentUrl} className="rounded-md" />,
+                <video controls src={contentUrl} className="rounded-md h-full w-full" />,
             );
         } else if (content_type.startsWith("audio/")) {
             setContentElement(
-                <audio controls src={contentUrl} className="rounded-md" />,
+                <audio controls src={contentUrl} className="rounded-md h-full w-full" />,
             );
         } else if (content_type.startsWith("text/")) {
             fetchTextContent(contentUrl)
                 .then((textContent) => {
                     setContentElement(
-                        <pre className="custom-scrollbar grid h-full w-full place-items-center overflow-scroll rounded-md p-5 font-bold content text-white">
+                        <pre className=" grid h-full w-full place-items-center overflow-scroll rounded-md p-5 font-bold content text-white cbar">
                             {textContent}
                         </pre>,
                     );
@@ -84,7 +68,7 @@ function ContentDisplay({ id, content_type, number }) {
                 .catch((error) => {
                     console.error("Error fetching text content:", error);
                     setContentElement(
-                        <pre className=" h-48 w-48 overflow-scroll border p-5 content text-white">
+                        <pre className=" h-48 w-48 overflow-scroll border p-5 content text-white cbar">
                             Something went wrong ʕ•̠͡•ʔ
                         </pre>,
                     );
@@ -93,7 +77,7 @@ function ContentDisplay({ id, content_type, number }) {
             fetchJsonContent(contentUrl)
                 .then((content) => {
                     setContentElement(
-                        <pre className="custom-scrollbar grid h-48 w-48 place-items-center overflow-scroll rounded-md  p-5 font-bold content text-Grey9">
+                        <pre className=" grid h-48 w-48 place-items-center overflow-scroll rounded-md  p-5 font-bold content text-Grey9 cbar">
                             {content}
                         </pre>,
                     );
@@ -102,7 +86,7 @@ function ContentDisplay({ id, content_type, number }) {
                 .catch((error) => {
                     console.error("Error fetching text content:", error);
                     setContentElement(
-                        <pre className=" custom-scrollbar h-48 w-48 content overflow-scroll border bg-yellow-400 p-5 text-white">
+                        <pre className=" h-48 w-48 content overflow-scroll border bg-yellow-400 p-5 text-white c-bar">
                             Something went wrong ʕ•̠͡•ʔ
                         </pre>,
                     );
@@ -111,7 +95,7 @@ function ContentDisplay({ id, content_type, number }) {
     }, []);
 
     return (
-        <div className="h-80 w-72 box-wrapper p-1 rounded-md flex flex-col group-hover:scale-105">
+        <div className="h-80 w-72 box-wrapper p-1 rounded-md flex flex-col group-hover:scale-105 cursor-pointer">
             <div className="flex h-64 w-full flex-col items-center justify-center gap-y-4 rounded-md box overflow-hidden">
                 {contentElement}
             </div>

@@ -43,7 +43,7 @@ function ProfitLossLayout({
     return <h2>Loading...</h2>;
   }
 
-  const BtcToUsd = usdValue.data.rates.BTC;
+  const BtcToUsd = usdValue.data.rates?.BTC || null;
   const BtcFees = fees / 100000000;
   const feeInUsd = (BtcToUsd * BtcFees).toFixed(2);
   if (fees && Transfers.length !== 1) {
@@ -58,7 +58,7 @@ function ProfitLossLayout({
       <div>{InscribedFee == fees ? "Inscribed Fee" : "Sold Fee"}</div>
       <div className="inline-block">
         {fees} sat&nbsp;
-        <span className="text-green-300">{feeInUsd}</span>
+        {BtcToUsd && <span className="text-green-300">{feeInUsd}</span>}
       </div>
     </section>
   );
