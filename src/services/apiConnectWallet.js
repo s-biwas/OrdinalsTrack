@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 // import Cookies from "js-cookie";
 
 export default async function apiConnectWallet() {
-  const myAppIcon = window.location.origin + "/src/images/Logoicon.png";
+  const myAppIcon = window.location.origin + "/Logoicon.png";
 
   try {
     await showConnect({

@@ -7,8 +7,6 @@ import Ordinals from "../components/Dashboard/Ordinals";
 import UserProfile from "../components/Dashboard/UserProfile";
 import TaxOrdinals from "../components/TaxOrdinals";
 import { useSearchParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { fetchInscriptionTransfer, fetchOrdinals } from "../hooks/useFetch";
 
 function Explore() {
   const {
@@ -88,10 +86,9 @@ function Explore() {
           </section>
           <DevTool control={control} />
         </form>
-
         <UserProfile address={address} accountStatus="BTC Account of:" />
-        <Ordinals key={ordinalData} ordinalData={ordinalData} />
-        <TaxOrdinals ordinalData={ordinalData} address={address} />
+        <Ordinals key={address} address={address} />
+        <TaxOrdinals />
       </section>
     </>
   );

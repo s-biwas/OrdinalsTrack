@@ -142,25 +142,21 @@ body {
   background: theme("colors.stone.800");
 }
 
-/* Hide the scrollbar */
-.custom-scrollbar {
-  scrollbar-width: thin;
-  /* Firefox */
-  scrollbar-color: transparent transparent;
-  /* Firefox */
-  /* Hide the scrollbar in WebKit browsers */
+.cbar::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
 }
 
-/* Hide the scrollbar thumb in WebKit browsers */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-  display: none;
+.cbar::-webkit-scrollbar-track {
+  background: rgba(77, 72, 72, 0.139);
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: transparent;
-  display: none;
+.cbar::-webkit-scrollbar-thumb {
+  background: theme("colors.slate.200");
+  border-radius: 20px;
 }
+
+
 
 .details-div p {
   display: flex;
@@ -198,4 +194,31 @@ body {
     text-transform: none;
     font-weight: 600;
   }
+}
+
+.box {
+  background: linear-gradient(139deg, rgba(255, 255, 255, 0.13) -6.39%, rgba(255, 255, 255, 0.06) 112.17%);
+  backdrop-filter: blur(37.22630310058594px);
+  z-index: 10000;
+}
+
+.box-wrapper {
+  background: linear-gradient(139deg, #E025CE, #4AED52, #BD24E6);
+  z-index: 5;
+}
+
+.Iholder {
+  border-radius: 0px 0px 6px 6px;
+  background-color: rgba(41, 37, 36, 0.589);
+  backdrop-filter: blur(3.722630023956299px);
+  z-index: 4;
+}
+
+.content {
+  background-color: rgba(41, 37, 36, 0.909);
+  backdrop-filter: blur(3.722630023956299px);
+}
+
+#main-nav {
+  z-index: 100000;
 }

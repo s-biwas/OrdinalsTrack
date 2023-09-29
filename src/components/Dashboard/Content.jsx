@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ReactSVG } from "react-svg";
 
 async function fetchJsonContent(url) {
     const response = await fetch(url);
@@ -35,65 +36,49 @@ function ContentDisplay({ id, content_type, number }) {
 
     useEffect(() => {
         if (content_type === "image/svg+xml") {
-            fetchTextContent(contentUrl)
-                .then((textContent) => {
-                    setContentElement(
-                        <iframe
-                            srcDoc={textContent}
-                            title="Embedded SVG"
-                            width="100%"
-                            height="400"
-                            sandbox="allow-scripts allow-same-origin"
-                        />,
-                    );
-                })
-                .catch((error) => {
-                    console.error("Error fetching text content:", error);
-                    setContentElement(
-                        <pre className=" h-48 w-48 overflow-hidden border bg-slate-200/10 p-5 text-white">
-                            Something went wrong ʕ•̠͡•ʔ
-                        </pre>,
-                    );
-                });
+            setContentElement(
+                <ReactSVG src={contentUrl} className="h-full w-full rounded-md" />
+            );
         } else if (content_type.startsWith("image/")) {
             setContentElement(
                 <img
                     src={contentUrl}
                     alt="Ordinal Image"
-                    className="h-60 w-60 rounded-md"
+                    className="h-full w-full rounded-md"
                 />,
             );
+
         } else if (content_type.startsWith("video/")) {
             setContentElement(
-                <video controls src={contentUrl} className="rounded-md" />,
+                <video controls src={contentUrl} className="rounded-md h-full w-full" />,
             );
         } else if (content_type.startsWith("audio/")) {
             setContentElement(
-                <audio controls src={contentUrl} className="rounded-md" />,
+                <audio controls src={contentUrl} className="rounded-md h-full w-full" />,
             );
         } else if (content_type.startsWith("text/")) {
             fetchTextContent(contentUrl)
-                .then(() => {
+                .then((textContent) => {
                     setContentElement(
-                        <pre className="custom-scrollbar grid h-48 w-48 place-items-center overflow-scroll rounded-md bg-yellow-400 p-5 font-bold text-Grey9">
-                            BitMap.get
+                        <pre className=" grid h-full w-full place-items-center overflow-scroll rounded-md p-5 font-bold content text-white cbar">
+                            {textContent}
                         </pre>,
                     );
                 })
                 .catch((error) => {
                     console.error("Error fetching text content:", error);
                     setContentElement(
-                        <pre className=" h-48 w-48 overflow-scroll border bg-yellow-400 p-5 text-white">
+                        <pre className=" h-48 w-48 overflow-scroll border p-5 content text-white cbar">
                             Something went wrong ʕ•̠͡•ʔ
                         </pre>,
                     );
                 });
         } else {
             fetchJsonContent(contentUrl)
-                .then(() => {
+                .then((content) => {
                     setContentElement(
-                        <pre className="custom-scrollbar grid h-48 w-48 place-items-center overflow-scroll rounded-md bg-yellow-400 p-5 font-bold text-Grey9">
-                            BitMap.get
+                        <pre className=" grid h-48 w-48 place-items-center overflow-scroll rounded-md  p-5 font-bold content text-Grey9 cbar">
+                            {content}
                         </pre>,
                     );
                     console.log(contentElement);
@@ -101,7 +86,7 @@ function ContentDisplay({ id, content_type, number }) {
                 .catch((error) => {
                     console.error("Error fetching text content:", error);
                     setContentElement(
-                        <pre className=" custom-scrollbar h-48 w-48 overflow-scroll border bg-yellow-400 p-5 text-white">
+                        <pre className=" h-48 w-48 content overflow-scroll border bg-yellow-400 p-5 text-white c-bar">
                             Something went wrong ʕ•̠͡•ʔ
                         </pre>,
                     );
@@ -110,10 +95,12 @@ function ContentDisplay({ id, content_type, number }) {
     }, []);
 
     return (
-        <div className="flex h-72 w-72 flex-col items-center justify-center gap-y-4 rounded-md  bg-stone-700 px-4  text-white shadow-xl group-hover:scale-105">
-            {contentElement}
+        <div className="h-80 w-72 box-wrapper p-1 rounded-md flex flex-col group-hover:scale-105 cursor-pointer">
+            <div className={`flex h-64 w-full flex-col items-center justify-center gap-y-4 rounded-md box overflow-hidden ${number ? "h-64" : "h-full"}`}>
+                {contentElement}
+            </div>
             {number && (
-                <span className="rounded- self-stretch bg-green-400 px-2 py-1 text-center font-bold shadow-[10px_10px_8px_3px_rgba(0,0,0,0.2)] group-hover:shadow-xl">
+                <span className="h-16 flex justify-center items-center w-full text-center font-bold Iholder">
                     Inscription #{number}
                 </span>
             )}
