@@ -96,7 +96,7 @@ function ContentDisplay({ id, content_type, number }) {
 
     return (
         <div className="h-80 w-72 box-wrapper p-1 rounded-md flex flex-col group-hover:scale-105 cursor-pointer">
-            <div className="flex h-64 w-full flex-col items-center justify-center gap-y-4 rounded-md box overflow-hidden">
+            <div className={`flex h-64 w-full flex-col items-center justify-center gap-y-4 rounded-md box overflow-hidden ${number ? "h-64" : "h-full"}`}>
                 {contentElement}
             </div>
             {number && (
