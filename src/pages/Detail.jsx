@@ -37,20 +37,22 @@ export default function Detail() {
     <div className="mx-auto my-14 flex min-h-[70vh] max-w-screen-xl flex-col gap-5 md:flex-row ">
       <div className="flex h-fit w-full flex-col items-center rounded-md bg-[#222] p-3 lg:w-1/2 ">
         {Details && (
-          <ContentDisplay
-            id={Details.id}
-            content_type={Details.content_type}
-            className="h-full w-full object-cover"
-          />
-        )}
+          <>
+            <ContentDisplay
+              id={Details.id}
+              content_type={Details.content_type}
+              className="h-full w-full object-cover"
+            />
 
-        <div className="mt-5">
-          <ProfitLoss
-            Transfers={Transfers?.results}
-            InscribedFee={Details?.genesis_fee}
-          />
-          {/* <p className="opacity-[0.5]">*Profit and loss are shown only if the ordinals is purchased or sold!</p> */}
-        </div>
+            <div className="mt-5">
+              <ProfitLoss
+                InscribedDetails={Details}
+                Transfers={Transfers?.results}
+              />
+              {/* <p className="opacity-[0.5]">*Profit and loss are shown only if the ordinals is purchased or sold!</p> */}
+            </div>
+          </>
+        )}
       </div>
 
       <div className="bg-black-400 h-fit w-full rounded-md border-gray-300 p-2 text-white shadow-lg  lg:w-1/2">
@@ -232,7 +234,6 @@ export default function Detail() {
           ) : (
             <p>No transfers available</p>
           )}
-
         </div>
       </div>
     </div>
