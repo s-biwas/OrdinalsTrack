@@ -4,6 +4,11 @@ export default function convertTimestamp(timeStamp) {
   return moment.unix(timeStamp / 1000).format("YYYY-MM-DD");
 }
 
+export function convertStringDate(string) {
+  return moment(string).unix();
+}
+
 export function convertTimestampNew(timeStamp) {
-  return moment.unix(timeStamp).format("YYYY-MM-DD");
+  var date = moment(timeStamp);
+  return date.utc().format("YYYY-MM-DD");
 }
