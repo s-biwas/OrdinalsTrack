@@ -1,20 +1,68 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchFees, getUsdEquivalent } from "../hooks/useFetch";
-import { useState } from "react";
+import { checkSale, fetchFees, getUsdEquivalent } from "../hooks/useFetch";
+import convertTimestamp, {
+  convertStringDate,
+  convertTimestampNew,
+} from "../utils/convertTimestamp";
 
-export default function ProfitLoss({ Transfers, InscribedFee }) {
-  const [smallValue, setSmallValue] = useState(null);
-  const [profitLoss, setProfitLoss] = useState({
-    soldValue: 0,
-    mintedValue: 0,
+export default function ProfitLoss({ Transfers, InscribedDetails }) {
+  const {
+    id,
+    genesis_fee: InscribedFee,
+    genesis_block_height: InscribedBlockHeight,
+  } = InscribedDetails;
+
+  const { data: fullEvents } = useQuery({
+    queryKey: ["checkSale", id],
+    queryFn: () => checkSale(id),
   });
 
-  const { soldValue, mintedValue } = profitLoss;
+  const soldValue = fullEvents?.filter(
+    (item) => item.event_type === "PURCHASED",
+  );
 
-  let ifProfitLoss, profitLossState, className;
-  if (soldValue && mintedValue) {
-    ifProfitLoss = soldValue - mintedValue;
+  if (!soldValue) {
+    return null;
   }
+
+  const { timestamp: InscribedTimestamp } = Transfers.filter(
+    (item) => item?.block_height === InscribedBlockHeight,
+  )[0];
+
+  return (
+    <>
+      <ProfitLossLayout
+        InscribedFee={InscribedFee}
+        InscribedTimestamp={InscribedTimestamp}
+        soldValues={soldValue[0]}
+      />
+    </>
+  );
+}
+
+function ProfitLossLayout({ InscribedFee, InscribedTimestamp, soldValues }) {
+  const {
+    event_timestamp: soldTimestamp,
+    total_price_sats_amount: soldFeeSats,
+  } = soldValues;
+  const { data: inscribedUsd, isLoading: loaderA } = useQuery({
+    queryKey: ["inscribedUsd", InscribedTimestamp],
+    queryFn: () => getUsdEquivalent(InscribedTimestamp),
+  });
+  const { data: soldUsd, isLoading: loaderB } = useQuery({
+    queryKey: ["soldUsd", convertStringDate(soldTimestamp) * 1000],
+    queryFn: () => getUsdEquivalent(convertStringDate(soldTimestamp) * 1000),
+  });
+
+  if (loaderA || loaderB) {
+    return <h2>Loading...</h2>;
+  }
+
+  const finalInscribedUsd = convertSatToUsd(inscribedUsd, InscribedFee);
+  const finalSoldUsd = convertSatToUsd(soldUsd, soldFeeSats);
+
+  let profitLossState, className;
+  const ifProfitLoss = finalSoldUsd - finalInscribedUsd;
 
   switch (Math.sign(ifProfitLoss)) {
     case -1:
@@ -40,83 +88,35 @@ export default function ProfitLoss({ Transfers, InscribedFee }) {
 
   return (
     <>
-      {Transfers?.map((item) => (
-        <ProfitLossLayout
-          key={item.tx_id}
-          Transfers={Transfers}
-          transferData={item}
-          InscribedFee={InscribedFee}
-          smallValue={smallValue}
-          setSmallValue={setSmallValue}
-          setProfitLoss={setProfitLoss}
-        />
-      ))}
-      <tr className="flex items-center justify-between gap-x-4 border">
-        <td className="px-4 text-center">
+      <tr className="flex flex-col items-start justify-between gap-x-4 border p-2">
+        <td>Inscribed Price (sats) : {InscribedFee}</td>
+
+        <td>
+          Inscribed Date (YYYY-MM-DD) : {convertTimestamp(InscribedTimestamp)}
+        </td>
+        <td>Inscribed Price (usd) : {finalInscribedUsd}</td>
+        <br />
+        <td>Sold Price (sats) : {soldFeeSats}</td>
+        <td>Sold Date (YYYY-MM-DD) : {convertTimestampNew(soldTimestamp)}</td>
+        <td>Sold Price (usd) : {finalSoldUsd}</td>
+        <td>
           {profitLossState === "positive"
             ? "Profit"
             : profitLossState === "negative"
             ? "Loss"
             : "Equal"}
-        </td>
-        <td className={`px-4 text-center ${className}`}>
-          ${Math.abs(ifProfitLoss)}
+          &nbsp;&nbsp;
+          <span className={`${className}`}>
+            ${Math.abs(ifProfitLoss).toFixed(2)}
+          </span>
         </td>
       </tr>
     </>
   );
 }
 
-function ProfitLossLayout({
-  Transfers,
-  transferData,
-  InscribedFee,
-  smallValue,
-  setSmallValue,
-  setProfitLoss,
-}) {
-  const { data: usdValue, isLoading: loaderA } = useQuery({
-    queryKey: ["usdEquivalent", transferData.timestamp],
-    queryFn: () => getUsdEquivalent(transferData.timestamp),
-    refetchOnWindowFocus: true,
-  });
-
-  const { data: fees, isLoading: loaderB } = useQuery({
-    queryKey: ["fetchfees", transferData.tx_id],
-    queryFn: () => fetchFees(transferData.tx_id),
-  });
-
-  if (loaderA || loaderB) {
-    return <h2>Loading...</h2>;
-  }
-
+function convertSatToUsd(usdValue, satsValue) {
   const BtcToUsd = usdValue?.data?.rates?.BTC || null;
-  const BtcFees = fees / 100000000;
-  const feeInUsd = (BtcToUsd * BtcFees).toFixed(2);
-  if (fees && Transfers.length !== 1) {
-    setSmallValue(smallValue == null || fees < smallValue ? fees : smallValue);
-  }
-  if (fees == smallValue) {
-    return null;
-  }
-
-  const isInscribed = InscribedFee == fees;
-  if (isInscribed) {
-    setProfitLoss((v) => ({ ...v, mintedValue: feeInUsd }));
-  } else {
-    setProfitLoss((v) => ({ ...v, soldValue: feeInUsd }));
-  }
-
-  return (
-    <>
-      <tr className="flex items-center justify-between gap-x-4 border">
-        <td className="">{isInscribed ? "Minted Price" : "Sold Price"}</td>
-        <td className="">
-          <span className="text-green-300">${feeInUsd} &nbsp;</span>
-          <span>({fees} sats)</span>
-        </td>
-        <br />
-      </tr>
-    </>
-  );
+  const BtcFees = satsValue / 100000000;
+  return (BtcToUsd * BtcFees).toFixed(2);
 }
