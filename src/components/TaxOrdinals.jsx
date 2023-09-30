@@ -23,11 +23,12 @@ function TaxOrdinals({ address }) {
       for (const ordinalItem of ordinalData.results) {
         const { address, timestamp, genesis_fee } = ordinalItem;
         const sale = await checkSale(ordinalItem.id);
-
+        let newRow = []
         if (sale.length > 0) {
+          let containPurchase = false;
           sale.forEach(saleItem => {
             if (saleItem.event_type === 'PURCHASED') {
-              const newRow = [
+              newRow = [
                 address,
                 2023,
                 convertTimestamp(timestamp),
@@ -38,10 +39,38 @@ function TaxOrdinals({ address }) {
                 saleItem.total_price_sats_amount,
                 parseInt(saleItem.total_price_sats_amount, 10) - parseInt(genesis_fee, 10),
               ];
-              newCsvData.push(newRow);
+              containPurchase = true;
+              return;
             }
           });
+          if (!containPurchase) {
+            newRow = [
+              address,
+              2023,
+              convertTimestamp(timestamp),
+              null,
+              genesis_fee,
+              null,
+              null,
+              null,
+              null,
+            ];
+          }
         }
+        else {
+          newRow = [
+            address,
+            2023,
+            convertTimestamp(timestamp),
+            null,
+            genesis_fee,
+            null,
+            null,
+            null,
+            null,
+          ];
+        }
+        newCsvData.push(newRow);
       }
 
       setCsvData(newCsvData);
@@ -89,7 +118,7 @@ function TaxOrdinals({ address }) {
           </div>
         )}
 
-        {csvData?.map((item, index) => {
+        {csvData.length > 0 ? csvData?.map((item, index) => {
           return (
             <div className="flex" key={index}>
               {item.map((content, index) => (
@@ -102,7 +131,8 @@ function TaxOrdinals({ address }) {
               ))}
             </div>
           );
-        })}
+        }) : <span>Loading Form 1099...</span>
+        }
       </div>
       <CSVLink
         data={csvData}
