@@ -4,6 +4,7 @@ import convertTimestamp, {
   convertStringDate,
   convertTimestampNew,
 } from "../utils/convertTimestamp";
+import { useState } from "react";
 
 export default function ProfitLoss({ Transfers, InscribedDetails }) {
   const {
@@ -12,17 +13,26 @@ export default function ProfitLoss({ Transfers, InscribedDetails }) {
     genesis_block_height: InscribedBlockHeight,
   } = InscribedDetails;
 
+  const [soldValue, setSoldValue] = useState({
+    event_timestamp: null,
+    total_price_sats_amount: null,
+  });
+
   const { data: fullEvents } = useQuery({
     queryKey: ["checkSale", id],
     queryFn: () => checkSale(id),
   });
 
-  const soldValue = fullEvents?.filter(
+  const result = fullEvents?.filter(
     (item) => item.event_type === "PURCHASED",
   );
 
-  if (!soldValue) {
-    return null;
+  if (!result) {
+    return;
+  }
+
+  if (soldValue.length > 0) {
+    setSoldValue(result[0])
   }
 
   const { timestamp: InscribedTimestamp } = Transfers.filter(
@@ -34,7 +44,7 @@ export default function ProfitLoss({ Transfers, InscribedDetails }) {
       <ProfitLossLayout
         InscribedFee={InscribedFee}
         InscribedTimestamp={InscribedTimestamp}
-        soldValues={soldValue[0]}
+        soldValues={soldValue}
       />
     </>
   );
@@ -45,6 +55,7 @@ function ProfitLossLayout({ InscribedFee, InscribedTimestamp, soldValues }) {
     event_timestamp: soldTimestamp,
     total_price_sats_amount: soldFeeSats,
   } = soldValues;
+
   const { data: inscribedUsd, isLoading: loaderA } = useQuery({
     queryKey: ["inscribedUsd", InscribedTimestamp],
     queryFn: () => getUsdEquivalent(InscribedTimestamp),
@@ -96,20 +107,24 @@ function ProfitLossLayout({ InscribedFee, InscribedTimestamp, soldValues }) {
         </td>
         <td>Inscribed Price (usd) : {finalInscribedUsd}</td>
         <br />
-        <td>Sold Price (sats) : {soldFeeSats}</td>
-        <td>Sold Date (YYYY-MM-DD) : {convertTimestampNew(soldTimestamp)}</td>
-        <td>Sold Price (usd) : {finalSoldUsd}</td>
-        <td>
-          {profitLossState === "positive"
-            ? "Profit"
-            : profitLossState === "negative"
-            ? "Loss"
-            : "Equal"}
-          &nbsp;&nbsp;
-          <span className={`${className}`}>
-            ${Math.abs(ifProfitLoss).toFixed(2)}
-          </span>
-        </td>
+        {soldTimestamp ?
+          <>
+            <td>Sold Price (sats) : {soldFeeSats}</td>
+            <td>Sold Date (YYYY-MM-DD) : {convertTimestampNew(soldTimestamp)}</td>
+            <td>Sold Price (usd) : {finalSoldUsd}</td>
+            <td>
+              {profitLossState === "positive"
+                ? "Profit"
+                : profitLossState === "negative"
+                  ? "Loss"
+                  : "Equal"}
+              &nbsp;&nbsp;
+              <span className={`${className}`}>
+                ${Math.abs(ifProfitLoss).toFixed(2)}
+              </span>
+            </td>
+          </> : <td>Not sold yet</td>
+        }
       </tr>
     </>
   );
