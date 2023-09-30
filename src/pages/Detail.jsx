@@ -8,7 +8,7 @@ import {
 import ContentDisplay from "../components/Dashboard/Content";
 import CopyIcon from "../images/Copy.svg";
 import toast from "react-hot-toast";
-import ProfitLoss from "../components/ProfitLoss";
+import ProfitLoss from "../components/ProfitLoss2";
 // import { useEffect } from "react";
 // import moment from "moment/moment";
 
@@ -47,7 +47,7 @@ export default function Detail() {
             <div className="mt-5">
               <ProfitLoss
                 InscribedDetails={Details}
-                Transfers={Transfers?.results}
+              // Transfers={Transfers?.results}
               />
               {/* <p className="opacity-[0.5]">*Profit and loss are shown only if the ordinals is purchased or sold!</p> */}
             </div>
