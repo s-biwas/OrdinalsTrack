@@ -214,12 +214,10 @@ body {
   );
   -webkit-backdrop-filter: blur(37.22630310058594px);
   backdrop-filter: blur(37.22630310058594px);
-  z-index: 10000;
 }
 
 .box-wrapper {
   background: linear-gradient(139deg, #e025ce, #4aed52, #bd24e6);
-  z-index: 5;
 }
 
 .Iholder {
@@ -227,7 +225,6 @@ body {
   background-color: rgba(41, 37, 36, 0.589);
   -webkit-backdrop-filter: blur(3.722630023956299px);
   backdrop-filter: blur(3.722630023956299px);
-  z-index: 4;
 }
 
 .content {
