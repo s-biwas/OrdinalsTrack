@@ -1,9 +1,8 @@
-import React from "react";
 import { CSVLink } from "react-csv";
 import convertTimestamp, {
   convertTimestampNew,
 } from "../utils/convertTimestamp";
-import { fetchOrdinals, getWholeTransfers } from "../hooks/useFetch";
+import { checkSale, fetchOrdinals, getWholeTransfers } from "../hooks/useFetch";
 import { useQuery } from "@tanstack/react-query";
 
 function TaxOrdinals({ address }) {
@@ -18,34 +17,35 @@ function TaxOrdinals({ address }) {
 
   const csvData = [];
 
-  ordinalData?.results.forEach((ordinalItem) => {
-    wholeTransfer?.data.forEach((transferItem) => {
-      const { address, timestamp, genesis_fee, tx_id } = ordinalItem;
-      const {
-        txid,
-        fee,
-        status: { block_time },
-      } = transferItem;
+  if (!ordinalData) {
+    return;
+  }
 
-      const ifSold = fee == genesis_fee;
+  ordinalData?.results.map(async (ordinalItem) => {
 
-      if (tx_id === txid) {
-        let newRow = [
-          address.slice(0, 5),
-          2023,
-          convertTimestamp(timestamp),
-          null,
-          genesis_fee,
-          ifSold ? null : convertTimestampNew(block_time),
-          null,
-          ifSold ? null : fee,
-          null,
-        ];
+    const sale = await checkSale(ordinalItem.id);
+    if (sale.length === 0) {
+      console.log("no record");
+    }
+    else {
+      console.log(sale);
+    }
+    // if (tx_id === txid) {
+    //   let newRow = [
+    //     address.slice(0, 5),
+    //     2023,
+    //     convertTimestamp(timestamp),
+    //     null,
+    //     genesis_fee,
+    //     ifSold ? null : convertTimestampNew(block_time),
+    //     null,
+    //     ifSold ? null : fee,
+    //     null,
+    //   ];
 
-        csvData.push(newRow);
-      }
-      return null;
-    });
+    //   csvData.push(newRow);
+    // }
+    return null;
   });
 
   return (
@@ -101,10 +101,11 @@ function TaxOrdinals({ address }) {
         data={csvData}
         className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
       >
-        Download CSV
+        Download Form 1099
       </CSVLink>
     </div>
   );
 }
 
 export default TaxOrdinals;
+
