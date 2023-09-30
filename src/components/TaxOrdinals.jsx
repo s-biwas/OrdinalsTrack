@@ -2,50 +2,87 @@ import { CSVLink } from "react-csv";
 import convertTimestamp, {
   convertTimestampNew,
 } from "../utils/convertTimestamp";
-import { fetchOrdinals, getWholeTransfers } from "../hooks/useFetch";
+import { checkSale, fetchOrdinals, getWholeTransfers } from "../hooks/useFetch";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 function TaxOrdinals({ address }) {
   const { data: ordinalData } = useQuery({
     queryKey: ["Ordinals"],
     queryFn: () => fetchOrdinals(address),
   });
-  const { data: wholeTransfer } = useQuery({
-    queryKey: ["wholeTransfer", address],
-    queryFn: () => getWholeTransfers(address),
-  });
+  const [csvData, setCsvData] = useState([]);
 
-  const csvData = [];
 
-  ordinalData?.results.forEach((ordinalItem) => {
-    wholeTransfer?.data.forEach((transferItem) => {
-      const { address, timestamp, genesis_fee, tx_id } = ordinalItem;
-      const { txid, fee } = transferItem;
 
-      const ifSold = fee == genesis_fee;
-      const ProfitOrLoss = fee - genesis_fee;
+  useEffect(() => {
+    async function fetchData() {
+      if (!ordinalData) return;
 
-      // genesis_fee > fee ? genesis_fee - fee : fee - genesis_fee;
+      const newCsvData = [];
 
-      if (tx_id === txid) {
-        let newRow = [
-          address,
-          2023,
-          convertTimestamp(timestamp),
-          null,
-          genesis_fee,
-          ifSold ? null : convertTimestampNew(timestamp),
-          // null,
-          null,
-          ifSold ? null : fee,
-          ifSold ? null : ((ProfitOrLoss / genesis_fee) * 100).toFixed(2),
-        ];
-
-        csvData.push(newRow);
+      for (const ordinalItem of ordinalData.results) {
+        const { address, timestamp, genesis_fee } = ordinalItem;
+        const sale = await checkSale(ordinalItem.id);
+        let newRow = []
+        if (sale.length > 0) {
+          let containPurchase = false;
+          sale.forEach(saleItem => {
+            if (saleItem.event_type === 'PURCHASED') {
+              newRow = [
+                address,
+                2023,
+                convertTimestamp(timestamp),
+                null,
+                genesis_fee,
+                saleItem.event_timestamp,
+                null,
+                saleItem.total_price_sats_amount,
+                parseInt(saleItem.total_price_sats_amount, 10) - parseInt(genesis_fee, 10),
+              ];
+              containPurchase = true;
+              return;
+            }
+          });
+          if (!containPurchase) {
+            newRow = [
+              address,
+              2023,
+              convertTimestamp(timestamp),
+              null,
+              genesis_fee,
+              null,
+              null,
+              null,
+              null,
+            ];
+          }
+        }
+        else {
+          newRow = [
+            address,
+            2023,
+            convertTimestamp(timestamp),
+            null,
+            genesis_fee,
+            null,
+            null,
+            null,
+            null,
+          ];
+        }
+        newCsvData.push(newRow);
       }
-      return null;
-    });
-  });
+
+      setCsvData(newCsvData);
+    }
+
+    fetchData();
+  }, [ordinalData]);
+
+  if (!ordinalData) {
+    return;
+  }
 
   return (
     <div>
@@ -81,7 +118,8 @@ function TaxOrdinals({ address }) {
             </p>
           </div>
         )}
-        {csvData?.map((item, index) => {
+
+        {csvData.length > 0 ? csvData?.map((item, index) => {
           return (
             <div className="flex" key={index}>
               {item.map((content, index) => (
@@ -94,13 +132,14 @@ function TaxOrdinals({ address }) {
               ))}
             </div>
           );
-        })}
+        }) : <span>Loading Form 1099...</span>
+        }
       </div>
       <CSVLink
         data={csvData}
         className="rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
       >
-        Download CSV
+        Download Form 1099
       </CSVLink>
     </div>
   );
@@ -108,6 +147,3 @@ function TaxOrdinals({ address }) {
 
 export default TaxOrdinals;
 
-function randomDecimal(min, max) {
-  return Math.random() * (max - min + 1) + min;
-}

@@ -107,3 +107,12 @@ export const getWholeTransfers = async (address) => {
     throw new Error(`Unable to get usd equivalent${error.message}`);
   }
 };
+
+export const checkSale = async (id) => {
+  try {
+    const response = await axios.post('https://nocors-six.vercel.app/get-activity', { id });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Unable to get usd equivalent${error.message}`);
+  }
+};
