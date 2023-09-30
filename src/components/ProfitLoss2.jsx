@@ -81,13 +81,13 @@ export default function ProfitLoss({ InscribedDetails }) {
                 <td>
                     Inscribed Date (YYYY-MM-DD) : {convertTimestamp(InscribedDetails.genesis_timestamp)}
                 </td>
-                <td>Inscribed Price (usd) : {usdAtIns}</td>
+                <td>Inscribed Price (usd) : {usdAtIns} $</td>
                 <br />
                 {usdAtSol ?
                     <>
                         <td>Sold Price (sats) : {satAtSol}</td>
                         <td>Sold Date (YYYY-MM-DD) : {convertTimestamp(timeStampSol)}</td>
-                        <td>Sold Price (usd) : {usdAtSol}</td>
+                        <td>Sold Price (usd) : {usdAtSol} $</td>
                         <td>
                             {profitLossState === "positive"
                                 ? "Profit"
