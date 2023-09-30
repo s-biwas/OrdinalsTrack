@@ -116,3 +116,16 @@ export const checkSale = async (id) => {
     throw new Error(`Unable to get usd equivalent${error.message}`);
   }
 };
+export const getUsdFromTs = async () => {
+  try {
+    const response = await axios.get("https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=USD&ts=1695550152000", {
+      headers: {
+        'Authorization': "531a718e4e35fdc2cf7a8a926dfa16eec900ff91af28eaccd25c221517d0c303"
+      }
+    });
+
+    return response.data.BTC.USD;
+  } catch (error) {
+    throw new Error(`Unable to get usd equivalent${error.message}`);
+  }
+};

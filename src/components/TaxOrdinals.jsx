@@ -2,7 +2,7 @@ import { CSVLink } from "react-csv";
 import convertTimestamp, {
   convertTimestampNew,
 } from "../utils/convertTimestamp";
-import { checkSale, fetchOrdinals, getWholeTransfers } from "../hooks/useFetch";
+import { checkSale, fetchOrdinals, getUsdEquivalent, getUsdFromTs, getWholeTransfers } from "../hooks/useFetch";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
@@ -24,52 +24,39 @@ function TaxOrdinals({ address }) {
       for (const ordinalItem of ordinalData.results) {
         const { address, genesis_timestamp: timestamp, genesis_fee } = ordinalItem;
         const sale = await checkSale(ordinalItem.id);
-        let newRow = []
+
+        let newRow = [
+          address,
+          2023,
+          convertTimestamp(timestamp),
+          null,
+          genesis_fee,
+          null,
+          null,
+          null,
+          null,
+        ];
+
         if (sale.length > 0) {
-          let containPurchase = false;
-          sale.forEach(saleItem => {
+          for (const saleItem of sale) {
             if (saleItem.event_type === 'PURCHASED') {
-              newRow = [
-                address,
-                2023,
-                convertTimestamp(timestamp),
-                null,
-                genesis_fee,
-                saleItem.event_timestamp,
-                null,
-                saleItem.total_price_sats_amount,
-                parseInt(saleItem.total_price_sats_amount, 10) - parseInt(genesis_fee, 10),
-              ];
-              containPurchase = true;
-              return;
+              try {
+                const usdAtInscription = await getUsdFromTs(timestamp);
+                const usdI = (parseFloat(usdAtInscription) * parseFloat(genesis_fee / 100000000)).toFixed(2);
+                const unixTimestamp = Date.parse(saleItem.event_timestamp);
+                const usdAtTransaction = await getUsdFromTs(unixTimestamp);
+                const usdT = (parseFloat(usdAtTransaction) * parseFloat(saleItem.total_price_sats_amount / 100000000)).toFixed(2);
+                newRow[3] = usdI + " $";
+                newRow[5] = convertTimestamp(unixTimestamp);
+                newRow[6] = usdT + " $";
+                newRow[7] = saleItem.total_price_sats_amount;
+                newRow[8] = (usdT - usdI).toFixed(2) + " $";
+              } catch (error) {
+                console.error("Error fetching data:", error);
+              }
+              break;
             }
-          });
-          if (!containPurchase) {
-            newRow = [
-              address,
-              2023,
-              convertTimestamp(timestamp),
-              null,
-              genesis_fee,
-              null,
-              null,
-              null,
-              null,
-            ];
           }
-        }
-        else {
-          newRow = [
-            address,
-            2023,
-            convertTimestamp(timestamp),
-            null,
-            genesis_fee,
-            null,
-            null,
-            null,
-            null,
-          ];
         }
         newCsvData.push(newRow);
       }
