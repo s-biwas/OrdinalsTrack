@@ -7,14 +7,14 @@ import convertTimestamp, {
 
 export default function ProfitLoss({ Transfers, InscribedDetails }) {
   const {
-    id,
+    address,
     genesis_fee: InscribedFee,
     genesis_block_height: InscribedBlockHeight,
   } = InscribedDetails;
 
   const { data: fullEvents } = useQuery({
-    queryKey: ["checkSale", id],
-    queryFn: () => checkSale(id),
+    queryKey: ["checkSale", address],
+    queryFn: () => checkSale(address),
   });
 
   const soldValue = fullEvents?.filter(
@@ -25,17 +25,19 @@ export default function ProfitLoss({ Transfers, InscribedDetails }) {
     return null;
   }
 
+  console.log(fullEvents);
+
   const { timestamp: InscribedTimestamp } = Transfers.filter(
     (item) => item?.block_height === InscribedBlockHeight,
   )[0];
 
   return (
     <>
-      <ProfitLossLayout
+      {/* <ProfitLossLayout
         InscribedFee={InscribedFee}
         InscribedTimestamp={InscribedTimestamp}
         soldValues={soldValue[0]}
-      />
+      /> */}
     </>
   );
 }
@@ -103,8 +105,8 @@ function ProfitLossLayout({ InscribedFee, InscribedTimestamp, soldValues }) {
           {profitLossState === "positive"
             ? "Profit"
             : profitLossState === "negative"
-            ? "Loss"
-            : "Equal"}
+              ? "Loss"
+              : "Equal"}
           &nbsp;&nbsp;
           <span className={`${className}`}>
             ${Math.abs(ifProfitLoss).toFixed(2)}

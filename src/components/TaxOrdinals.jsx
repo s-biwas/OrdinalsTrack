@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 function TaxOrdinals({ address }) {
   const { data: ordinalData } = useQuery({
-    queryKey: ["Ordinals"],
+    queryKey: ["Ordinals", address],
     queryFn: () => fetchOrdinals(address),
   });
   const [csvData, setCsvData] = useState([]);
