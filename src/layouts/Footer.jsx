@@ -8,8 +8,8 @@ function Footer() {
         <br className="sm:hidden" /> All Rights Reserved
       </p>
       <div className="flex items-center gap-x-4  text-sm">
-        <Link to="/">Terms of service</Link>
-        <Link to="/">Privacy Policy</Link>
+        <Link to="/terms">Terms of service</Link>
+        <Link to="/privacy">Privacy Policy</Link>
       </div>
     </footer>
   );

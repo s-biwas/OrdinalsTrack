@@ -6,7 +6,6 @@ import {
   Outlet,
 } from "react-router-dom";
 import { Suspense, lazy } from "react";
-
 import AppLayout from "./layouts/AppLayout";
 import Home from "./pages/Home";
 import { Toaster } from "react-hot-toast";
@@ -16,6 +15,8 @@ const Asset = lazy(() => import("./pages/Asset"));
 const Page404 = lazy(() => import("./ui/Page404"));
 const Detail = lazy(() => import("./pages/Detail"));
 const Explore = lazy(() => import("./pages/Explore"));
+import TermsAndConditions from "./pages/Terms";
+import PrivacyPolicy from "./pages/Privacy";
 
 const SuspenseLayout = () => (
   <Suspense fallback={<b>Loading...</b>}>
@@ -33,6 +34,8 @@ const router = createBrowserRouter(
           <Route exact path="/dashboard" element={<Dashboard />} />,
           <Route exact path="/asset" element={<Asset />} />,
           <Route exact path="/detail/:id" element={<Detail />} />,
+          <Route exact path="/terms" element={<TermsAndConditions />} />,
+          <Route exact path="/privacy" element={<PrivacyPolicy />} />,
         </Route>
         <Route exact path="*" element={<Page404 />} />
       </Route>
