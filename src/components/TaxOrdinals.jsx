@@ -22,7 +22,7 @@ function TaxOrdinals({ address }) {
       const newCsvData = [];
 
       for (const ordinalItem of ordinalData.results) {
-        const { address, timestamp, genesis_fee } = ordinalItem;
+        const { address, genesis_timestamp: timestamp, genesis_fee } = ordinalItem;
         const sale = await checkSale(ordinalItem.id);
         let newRow = []
         if (sale.length > 0) {
