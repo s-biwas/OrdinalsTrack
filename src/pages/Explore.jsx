@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { GiCancel } from "react-icons/gi";
-import { DevTool } from "@hookform/devtools";
 import { ErrorMessage } from "@hookform/error-message";
 import validate from "bitcoin-address-validation";
 import Ordinals from "../components/Dashboard/Ordinals";
@@ -14,7 +13,6 @@ function Explore() {
     register,
     handleSubmit,
     reset,
-    control,
     formState: { errors },
   } = useForm();
 
@@ -75,11 +73,10 @@ function Explore() {
               Search
             </button>
           </section>
-          <DevTool control={control} />
         </form>
         <UserProfile address={address} accountStatus="BTC Account of:" />
         <Exploreslide />
-        <div className="w-full flex items-center justify-center flex-col gap-5">
+        <div className="flex w-full flex-col items-center justify-center gap-5">
           <Ordinals key={address} address={address} />
           <TaxOrdinals address={address} />
         </div>
