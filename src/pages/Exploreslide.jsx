@@ -25,7 +25,7 @@ function Exploreslide() {
           item.content_type.startsWith("image/png"),
         ).map((ordinal) => {
           return (
-            <div key={ordinal.id} className='h-full w-48 mx-auto'>
+            <div key={ordinal.id} className='h-full w-[290px] mx-auto'>
               <Link
                 key={ordinal.id}
                 to={`/detail/${ordinal.id}`}
@@ -48,7 +48,3 @@ function Exploreslide() {
 }
 
 export default Exploreslide;
-
-function getImage(id) {
-  return `https://api.hiro.so/ordinals/v1/inscriptions/${id}/content`;
-}

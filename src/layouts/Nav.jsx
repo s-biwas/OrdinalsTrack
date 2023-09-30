@@ -90,11 +90,11 @@ function NavPages({ type = "hr-nav", setShowMenu }) {
 
       {/* lassName="text-slate-300" */}
 
-      <div className="ml-auto">
+      <div className="md:ml-auto">
         {!response ? (
           <button
             onClick={apiConnectWallet}
-            className="rounded-md p-2 font-medium ring-2 ring-green-400 hover:bg-green-300/30"
+            className="rounded-md p-2 font-medium ring-2 ring-green-400 hover:bg-green-300/30 "
           >
             Connect Wallet
           </button>

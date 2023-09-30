@@ -90,8 +90,8 @@ function TaxOrdinals({ address }) {
   }
 
   return (
-    <div>
-      <div className="mb-4 ">
+    <div className="flex flex-col justify-center items-start w-full mx-auto overflow-scroll">
+      <div className="mb-4 mx-auto">
         {csvData.length > 0 && (
           <div className="flex">
             <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700 px-4 py-2 text-center font-bold text-black dark:text-white">
@@ -150,7 +150,7 @@ function TaxOrdinals({ address }) {
       {csvData.length > 0 ? (
         <CSVLink
           data={csvData}
-          className="rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
+          className="rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600 mx-auto"
         >
           Download Csv Report
         </CSVLink>
