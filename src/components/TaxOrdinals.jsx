@@ -4,49 +4,55 @@ import convertTimestamp, {
 } from "../utils/convertTimestamp";
 import { checkSale, fetchOrdinals, getWholeTransfers } from "../hooks/useFetch";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 function TaxOrdinals({ address }) {
   const { data: ordinalData } = useQuery({
     queryKey: ["Ordinals"],
     queryFn: () => fetchOrdinals(address),
   });
-  const { data: wholeTransfer } = useQuery({
-    queryKey: ["wholeTransfer", address],
-    queryFn: () => getWholeTransfers(address),
-  });
+  const [csvData, setCsvData] = useState([]);
 
-  const csvData = [];
+
+  useEffect(() => {
+    async function fetchData() {
+      if (!ordinalData) return;
+
+      const newCsvData = [];
+
+      for (const ordinalItem of ordinalData.results) {
+        const { address, timestamp, genesis_fee } = ordinalItem;
+        const sale = await checkSale(ordinalItem.id);
+
+        if (sale.length > 0) {
+          sale.forEach(saleItem => {
+            if (saleItem.event_type === 'PURCHASED') {
+              const newRow = [
+                address,
+                2023,
+                convertTimestamp(timestamp),
+                null,
+                genesis_fee,
+                saleItem.event_timestamp,
+                null,
+                saleItem.total_price_sats_amount,
+                parseInt(saleItem.total_price_sats_amount, 10) - parseInt(genesis_fee, 10),
+              ];
+              newCsvData.push(newRow);
+            }
+          });
+        }
+      }
+
+      setCsvData(newCsvData);
+    }
+
+    fetchData();
+  }, [ordinalData]);
 
   if (!ordinalData) {
     return;
   }
-
-  ordinalData?.results.map(async (ordinalItem) => {
-
-    const sale = await checkSale(ordinalItem.id);
-    if (sale.length === 0) {
-      console.log("no record");
-    }
-    else {
-      console.log(sale);
-    }
-    // if (tx_id === txid) {
-    //   let newRow = [
-    //     address.slice(0, 5),
-    //     2023,
-    //     convertTimestamp(timestamp),
-    //     null,
-    //     genesis_fee,
-    //     ifSold ? null : convertTimestampNew(block_time),
-    //     null,
-    //     ifSold ? null : fee,
-    //     null,
-    //   ];
-
-    //   csvData.push(newRow);
-    // }
-    return null;
-  });
 
   return (
     <div>
@@ -82,6 +88,7 @@ function TaxOrdinals({ address }) {
             </p>
           </div>
         )}
+
         {csvData?.map((item, index) => {
           return (
             <div className="flex" key={index}>
