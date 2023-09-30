@@ -4,30 +4,65 @@ import { useState } from "react";
 
 export default function ProfitLoss({ Transfers, InscribedFee }) {
   const [smallValue, setSmallValue] = useState(null);
+  const [profitLoss, setProfitLoss] = useState({
+    soldValue: 0,
+    mintedValue: 0,
+  });
+
+  const { soldValue, mintedValue } = profitLoss;
+
+  let ifProfitLoss, profitLossState, className;
+  if (soldValue && mintedValue) {
+    ifProfitLoss = soldValue - mintedValue;
+  }
+
+  switch (Math.sign(ifProfitLoss)) {
+    case -1:
+      profitLossState = "negative";
+      break;
+    case 1:
+      profitLossState = "positive";
+      break;
+    default:
+      profitLossState = "zero";
+  }
+
+  switch (profitLossState) {
+    case "negative":
+      className = "text-red-400";
+      break;
+    case "positive":
+      className = "text-green-400";
+      break;
+    default:
+      className = "";
+  }
 
   return (
     <>
-      <table className="min-w-full bg-black border-collapse">
-        <thead>
-          <tr>
-            <th className="border px-4 py-2">Sold Price</th>
-            <th className="border px-4 py-2">Minted Price</th>
-            <th className="border px-4 py-2">Profit/Loss</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Transfers?.map((item) => (
-            <ProfitLossLayout
-              key={item.tx_id}
-              Transfers={Transfers}
-              transferData={item}
-              InscribedFee={InscribedFee}
-              smallValue={smallValue}
-              setSmallValue={setSmallValue}
-            />
-          ))}
-        </tbody>
-      </table>
+      {Transfers?.map((item) => (
+        <ProfitLossLayout
+          key={item.tx_id}
+          Transfers={Transfers}
+          transferData={item}
+          InscribedFee={InscribedFee}
+          smallValue={smallValue}
+          setSmallValue={setSmallValue}
+          setProfitLoss={setProfitLoss}
+        />
+      ))}
+      <tr className="flex items-center justify-between gap-x-4 border">
+        <td className="px-4 text-center">
+          {profitLossState === "positive"
+            ? "Profit"
+            : profitLossState === "negative"
+            ? "Loss"
+            : "Equal"}
+        </td>
+        <td className={`px-4 text-center ${className}`}>
+          ${Math.abs(ifProfitLoss)}
+        </td>
+      </tr>
     </>
   );
 }
@@ -38,6 +73,7 @@ function ProfitLossLayout({
   InscribedFee,
   smallValue,
   setSmallValue,
+  setProfitLoss,
 }) {
   const { data: usdValue, isLoading: loaderA } = useQuery({
     queryKey: ["usdEquivalent", transferData.timestamp],
@@ -51,19 +87,12 @@ function ProfitLossLayout({
   });
 
   if (loaderA || loaderB) {
-    return (
-      <tr>
-        <td className="border px-4 py-2">Loading...</td>
-        <td className="border px-4 py-2"></td>
-        <td className="border px-4 py-2"></td>
-      </tr>
-    );
+    return <h2>Loading...</h2>;
   }
 
   const BtcToUsd = usdValue?.data?.rates?.BTC || null;
   const BtcFees = fees / 100000000;
   const feeInUsd = (BtcToUsd * BtcFees).toFixed(2);
-
   if (fees && Transfers.length !== 1) {
     setSmallValue(smallValue == null || fees < smallValue ? fees : smallValue);
   }
@@ -71,43 +100,23 @@ function ProfitLossLayout({
     return null;
   }
 
-  if (InscribedFee == null || fees == null) {
-    return (
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    );
+  const isInscribed = InscribedFee == fees;
+  if (isInscribed) {
+    setProfitLoss((v) => ({ ...v, mintedValue: feeInUsd }));
+  } else {
+    setProfitLoss((v) => ({ ...v, soldValue: feeInUsd }));
   }
-
-  const feeDifference = fees - InscribedFee;
-  const isProfit = feeDifference > 0;
-  const isLoss = feeDifference < 0;
-  if (feeDifference === 0) {
-    return null; // Don't render the row if feeDifference is 0
-  }
-  const profitLossInUsd = ((feeDifference * BtcToUsd) / 100000000).toFixed(2);
-  const InscribedFeeInUsd = ((InscribedFee * BtcToUsd) / 100000000).toFixed(2);
-
-
 
   return (
-    <tr>
-      <td className="border px-4 py-2">
-        {fees} sats (${feeInUsd})
-      </td>
-      <td className="border px-4 py-2">{InscribedFee} sats (${InscribedFeeInUsd})</td>
-      <td
-        className="border px-4 py-2"
-        style={{ color: isProfit ? "green" : isLoss ? "red" : "gray" }}
-      >
-        {isProfit && "Profit"}
-        {isLoss && "Loss"}
-        {(!isProfit && !isLoss) && "Neither"}:{" "}
-        {feeDifference > 0 ? "+" : ""}
-        {feeDifference} sats
-      </td>
-    </tr>
+    <>
+      <tr className="flex items-center justify-between gap-x-4 border">
+        <td className="">{isInscribed ? "Minted Price" : "Sold Price"}</td>
+        <td className="">
+          <span className="text-green-300">${feeInUsd} &nbsp;</span>
+          <span>({fees} sats)</span>
+        </td>
+        <br />
+      </tr>
+    </>
   );
 }

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import UserProfile from "../components/Dashboard/UserProfile";
 import Ordinals from "../components/Dashboard/Ordinals";
 import apiConnectWallet from "../services/apiConnectWallet";
-import Taxtable from "./Taxtable";
+// import Taxtable from "./Taxtable";
 
 function Dashboard() {
   const { response } = useSelector((state) => state.wallet);

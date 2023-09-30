@@ -1,4 +1,3 @@
-import React from "react";
 import { CSVLink } from "react-csv";
 import convertTimestamp, {
   convertTimestampNew,
@@ -21,25 +20,25 @@ function TaxOrdinals({ address }) {
   ordinalData?.results.forEach((ordinalItem) => {
     wholeTransfer?.data.forEach((transferItem) => {
       const { address, timestamp, genesis_fee, tx_id } = ordinalItem;
-      const {
-        txid,
-        fee,
-        status: { block_time },
-      } = transferItem;
+      const { txid, fee } = transferItem;
 
       const ifSold = fee == genesis_fee;
+      const ProfitOrLoss = fee - genesis_fee;
+
+      // genesis_fee > fee ? genesis_fee - fee : fee - genesis_fee;
 
       if (tx_id === txid) {
         let newRow = [
-          address.slice(0, 5),
+          address,
           2023,
           convertTimestamp(timestamp),
           null,
           genesis_fee,
-          ifSold ? null : convertTimestampNew(block_time),
+          ifSold ? null : convertTimestampNew(timestamp),
+          // null,
           null,
           ifSold ? null : fee,
-          null,
+          ifSold ? null : ((ProfitOrLoss / genesis_fee) * 100).toFixed(2),
         ];
 
         csvData.push(newRow);
@@ -53,31 +52,31 @@ function TaxOrdinals({ address }) {
       <div className="mb-4 ">
         {csvData.length > 0 && (
           <div className="flex">
-            <p className="w-28 overflow-hidden px-4 py-2 text-center bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700 px-4 py-2 text-center font-bold text-black dark:text-white">
               Account Number
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Tax Year
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Date Ordinals Acquired
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Price Ordinals Acquired (Usd)
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Price Ordinals Acquired (sats)
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Date Ordinals Sold
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Price Ordinals Sold (Usd)
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Price Ordinals Sold (sats)
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Net Profit/Loss (sats)
             </p>
           </div>
@@ -87,10 +86,10 @@ function TaxOrdinals({ address }) {
             <div className="flex" key={index}>
               {item.map((content, index) => (
                 <p
-                  className="w-28 overflow-hidden px-4 py-2 text-center border border-gray-300 bg-white dark:bg-gray-800 text-black dark:text-white"
+                  className="w-28 overflow-hidden border border-gray-300 bg-white px-4 py-2 text-center text-black dark:bg-gray-800 dark:text-white"
                   key={index}
                 >
-                  {content}
+                  {content == address ? content.slice(0, 8) + "..." : content}
                 </p>
               ))}
             </div>
@@ -99,7 +98,7 @@ function TaxOrdinals({ address }) {
       </div>
       <CSVLink
         data={csvData}
-        className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
+        className="rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
       >
         Download CSV
       </CSVLink>
@@ -108,3 +107,7 @@ function TaxOrdinals({ address }) {
 }
 
 export default TaxOrdinals;
+
+function randomDecimal(min, max) {
+  return Math.random() * (max - min + 1) + min;
+}
