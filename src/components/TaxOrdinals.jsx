@@ -14,6 +14,7 @@ function TaxOrdinals({ address }) {
   const [csvData, setCsvData] = useState([]);
 
 
+
   useEffect(() => {
     async function fetchData() {
       if (!ordinalData) return;
@@ -88,31 +89,31 @@ function TaxOrdinals({ address }) {
       <div className="mb-4 ">
         {csvData.length > 0 && (
           <div className="flex">
-            <p className="w-28 overflow-hidden px-4 py-2 text-center bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700 px-4 py-2 text-center font-bold text-black dark:text-white">
               Account Number
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Tax Year
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Date Ordinals Acquired
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Price Ordinals Acquired (Usd)
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Price Ordinals Acquired (sats)
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Date Ordinals Sold
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Price Ordinals Sold (Usd)
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Price Ordinals Sold (sats)
             </p>
-            <p className="w-28 overflow-hidden px-4 py-2 text-center  bg-gray-700 border border-gray-300 font-bold text-black dark:text-white">
+            <p className="w-28 overflow-hidden border border-gray-300 bg-gray-700  px-4 py-2 text-center font-bold text-black dark:text-white">
               Net Profit/Loss (sats)
             </p>
           </div>
@@ -123,10 +124,10 @@ function TaxOrdinals({ address }) {
             <div className="flex" key={index}>
               {item.map((content, index) => (
                 <p
-                  className="w-28 overflow-hidden px-4 py-2 text-center border border-gray-300 bg-white dark:bg-gray-800 text-black dark:text-white"
+                  className="w-28 overflow-hidden border border-gray-300 bg-white px-4 py-2 text-center text-black dark:bg-gray-800 dark:text-white"
                   key={index}
                 >
-                  {content}
+                  {content == address ? content.slice(0, 8) + "..." : content}
                 </p>
               ))}
             </div>
@@ -136,7 +137,7 @@ function TaxOrdinals({ address }) {
       </div>
       <CSVLink
         data={csvData}
-        className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
+        className="rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
       >
         Download Form 1099
       </CSVLink>
