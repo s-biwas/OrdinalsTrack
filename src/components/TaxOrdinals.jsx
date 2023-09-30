@@ -152,7 +152,7 @@ function TaxOrdinals({ address }) {
           data={csvData}
           className="rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600 mx-auto"
         >
-          Download Csv Report
+          Download Form 1099
         </CSVLink>
       ) : null}
     </div>
